@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{618927A7-E54C-4B56-9455-84828D2AA12C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Obsession.Server", "Obsession.Server\Obsession.Server.csproj", "{53AAF394-FC6A-4C2D-8C4A-C4D9670F2F11}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotifyMyAndroid", "Plugins\NotifyMyAndroid\NotifyMyAndroid.csproj", "{0756F3EE-C5F2-4620-837F-51B66BB1A119}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InComfort", "Plugins\InComfort\InComfort.csproj", "{F33E0832-FCA9-4622-A8E2-36977B9CA1E9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{AB3BC356-C997-476B-848B-DDF4207FE8ED}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Obsession.Core\Core.csproj", "{4541846B-1A29-44FB-9029-663A2FFD623B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Obsession.Service", "Obsession.Service\Obsession.Service.csproj", "{E6E2AEC2-4A52-4004-91F8-ADF0801F6F31}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{618927A7-E54C-4B56-9455-84828D2AA12C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{618927A7-E54C-4B56-9455-84828D2AA12C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{618927A7-E54C-4B56-9455-84828D2AA12C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{618927A7-E54C-4B56-9455-84828D2AA12C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53AAF394-FC6A-4C2D-8C4A-C4D9670F2F11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53AAF394-FC6A-4C2D-8C4A-C4D9670F2F11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53AAF394-FC6A-4C2D-8C4A-C4D9670F2F11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53AAF394-FC6A-4C2D-8C4A-C4D9670F2F11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0756F3EE-C5F2-4620-837F-51B66BB1A119}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0756F3EE-C5F2-4620-837F-51B66BB1A119}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0756F3EE-C5F2-4620-837F-51B66BB1A119}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0756F3EE-C5F2-4620-837F-51B66BB1A119}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F33E0832-FCA9-4622-A8E2-36977B9CA1E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F33E0832-FCA9-4622-A8E2-36977B9CA1E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F33E0832-FCA9-4622-A8E2-36977B9CA1E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F33E0832-FCA9-4622-A8E2-36977B9CA1E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4541846B-1A29-44FB-9029-663A2FFD623B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4541846B-1A29-44FB-9029-663A2FFD623B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4541846B-1A29-44FB-9029-663A2FFD623B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4541846B-1A29-44FB-9029-663A2FFD623B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6E2AEC2-4A52-4004-91F8-ADF0801F6F31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6E2AEC2-4A52-4004-91F8-ADF0801F6F31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6E2AEC2-4A52-4004-91F8-ADF0801F6F31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6E2AEC2-4A52-4004-91F8-ADF0801F6F31}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -4,12 +4,8 @@ build_artifacts/*
 *.user
 packages
 *.dotCover
-
 *.ncrunch*
-
 src/logs/*
-
-**/*.sln*
 bin
 obj
 _ReSharper*
@@ -24,11 +20,8 @@ src/Samples/HeavyLoad/logs
 *.swp
 *.bak
 *.orig
-
 NuGet.exe
-
 packages
-
 TestResult.xml
 submit.xml
 tests/*
@@ -36,9 +29,7 @@ SolutionVersion.cs
 src/SolutionVersion.cs
 tests
 doc/build/*
-
 # osx noise
 .DS_Store
-NuGet.Exe
-
 nuspecs/
+.nuget
