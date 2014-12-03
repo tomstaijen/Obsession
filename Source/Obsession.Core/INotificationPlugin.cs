@@ -8,6 +8,6 @@ namespace Core
 {
     public interface INotificationPlugin
     {
-        bool Notify(string message);
+        bool Notify(string message, string description);
     }
 }

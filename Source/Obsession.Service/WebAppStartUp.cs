@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Formatting;
-using System.Web;
+﻿using System.Net.Http.Formatting;
 using System.Web.Http;
 using Nancy;
 using Owin;
 
-namespace NancyOwinApi
+namespace Obsession.Service
 {
-    public class StartUp
+    public class WebAppStartUp
     {
         public void Configuration(IAppBuilder app)
         {

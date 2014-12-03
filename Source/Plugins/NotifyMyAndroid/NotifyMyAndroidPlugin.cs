@@ -17,25 +17,29 @@ namespace NotifyMyAndroid
             var client = new HttpClient();
             var response = client.GetAsync("https://www.notifymyandroid.com/publicapi/verify?apikey=" + apiKey);
             var statuscode = response.Result.StatusCode;
+
+            var content = response.Result.Content.ReadAsStringAsync();
+            Console.WriteLine(content.ToString());
+
             return statuscode == HttpStatusCode.OK;
         }
 
-        public bool Notify(string message)
+        public bool Notify(string message, string description)
         {
             HttpClient client = new HttpClient();
 
-            var n = new Notify
-                {
-                    ApiKey = "9bdad31063771a8b755088ed25ac4aa00034aad44442d0a3",
-                    Application = "Obsession.NET",
-                    Event = "Hi",
-                    Description = message
-                };
+            var dict = new Dictionary<string, string>();
+            dict.Add("apikey", "9bdad31063771a8b755088ed25ac4aa00034aad44442d0a3");
+            dict.Add("application", "Obsession.NET");
+            dict.Add("event", message);
+            dict.Add("description", description);
 
-            var theData = JsonConvert.SerializeObject(n );
+            var load = new FormUrlEncodedContent(dict);
 
-            var response = client.PostAsync("https://www.notifymyandroid.com/publicapi/notify",
-                             new StringContent(theData));
+            var response = client.PostAsync("https://www.notifymyandroid.com/publicapi/notify", load);
+
+            var content = response.Result.Content.ReadAsStringAsync();
+            Console.WriteLine(content.ToString());
 
             var statuscode = response.Result.StatusCode;
             return statuscode == HttpStatusCode.OK;
