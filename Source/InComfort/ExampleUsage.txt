@@ -1,0 +1,110 @@
+﻿
+<!--
+function updateStatus(data) {
+    var jsondata = JSON.parse(data);
+    var room_temp1 = (jsondata.room_temp_1_lsb + jsondata.room_temp_1_msb*256) / 100;
+    var room_set1 = (jsondata.room_temp_set_1_lsb + jsondata.room_temp_set_1_msb*256) / 100;
+    var room_set_ovr1 = (jsondata.room_set_ovr_1_lsb + jsondata.room_set_ovr_1_msb*256) / 100;
+    var room_temp2 = (jsondata.room_temp_2_lsb + jsondata.room_temp_2_msb*256) / 100;
+    var room_set2 = (jsondata.room_temp_set_2_lsb + jsondata.room_temp_set_2_msb*256) / 100;
+    var room_set_ovr2 = (jsondata.room_set_ovr_2_lsb + jsondata.room_set_ovr_2_msb*256) / 100; 
+    if (room_temp1 != 327.67){
+        document.getElementById('room_temp1').innerHTML = room_temp1;
+        }
+    if (room_set1 != 327.67){
+        document.getElementById('room_set1').innerHTML = room_set1;
+        }
+    if (room_set_ovr1 != 327.67){
+	document.getElementById('room_set_ovr1').innerHTML = room_set_ovr1;
+	}
+    if (room_temp2 != 327.67){
+    document.getElementById('room_temp2').innerHTML = room_temp2;
+        }
+    if (room_set2 != 327.67){
+	document.getElementById('room_set2').innerHTML = room_set2;
+    }
+    if (room_set_ovr2 != 327.67){
+	document.getElementById('room_set_ovr2').innerHTML = room_set_ovr2;
+    }
+}
+function updateStatusSetpoint(data) {
+    var jsondata_therm = JSON.parse(data);
+    var room_set_ovr_1 = (jsondata_therm.room_set_ovr_1_lsb + jsondata_therm.room_set_ovr_1_msb*256) / 100;
+    var room_set_ovr_2 = (jsondata_therm.room_set_ovr_2_lsb + jsondata_therm.room_set_ovr_2_msb*256) / 100; 
+    document.getElementById('setpointstatus').innerHTML = "Roomtemperature 1 set to " + room_set_ovr_1 +"&#176;C<br>Roomtemperature 2 set to " + room_set_ovr_2 + "&#176;C<br>(It may take a while for the roomthermostat to respond)";
+    document.getElementById('room_set_ovr1').innerHTML = room_set_ovr_1;
+    document.getElementById('room_set_ovr2').innerHTML = room_set_ovr_2;
+}
+function update_setpoint(thermostat){
+    var d = document.getElementById("setpoint").value;
+    newAJAXCommand('data.json?heater=0&setpoint='+d+'&thermostat='+thermostat ,updateStatusSetpoint , false);
+}
+setTimeout("newAJAXCommand('data.json?heater=0', updateStatus, true)",500);
+//-->
+
+
+
+
+<!--
+function in_array(value,array) {
+    for(var i=0;i<array.length;i++) {
+        if(array[i] === value) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+
+function updateStatus(data) {
+        var jsondata = JSON.parse(data)
+        var status=[85,170,204,51,240,15,153,102,0,255,24,231,126,37];
+        var io_on = "on";
+        var io_off = "off";
+        var descriptions=['sensortest',
+                      'service',
+                      'tapwater',
+                      'tapwater int.', 
+                      'boiler int.',
+                      'boiler ext.',
+                      'postrun boiler',
+                      'central heating', 
+                      'opentherm',
+                      'buffer',
+                      'frost',
+                      'postrun ch',
+                      'standby',
+                      'central heating rf'];
+        var ch_temp = (jsondata.ch_temp_lsb + jsondata.ch_temp_msb*256) / 100;
+        var tap_temp = (jsondata.tap_temp_lsb + jsondata.tap_temp_msb*256) / 100;
+        var ch_pressure = (jsondata.ch_pressure_lsb + jsondata.ch_pressure_msb*256) / 100;
+        var lockout = jsondata.IO&1;
+        var pump = jsondata.IO&2;
+        var tapfunction = jsondata.IO&4;
+        var burner = jsondata.IO&8;
+        var displ_code = jsondata.displ_code;
+        var labelfound = in_array(displ_code,status);
+        var displ_descr = 'unknown';
+        if (lockout){
+            displ_descr = 'Error: ' + displ_code;
+            }
+        else if (labelfound >=0){
+            displ_descr = descriptions[labelfound];
+            }
+            
+    document.getElementById('nodenr').innerHTML = jsondata.nodenr;
+    document.getElementById('ch_temp').innerHTML = ch_temp;
+    document.getElementById('tap_temp').innerHTML = tap_temp;
+    document.getElementById('ch_pressure').innerHTML = ch_pressure;
+    document.getElementById('displ_code').innerHTML = displ_descr;
+    if (lockout){document.getElementById('lockout').innerHTML = "error";}
+    else {document.getElementById('lockout').innerHTML = "-";}
+    if (pump){document.getElementById('pump').innerHTML = io_on;}
+    else {document.getElementById('pump').innerHTML = io_off;}
+    if (tapfunction){document.getElementById('tapfunction').innerHTML = io_on;}
+    else {document.getElementById('tapfunction').innerHTML = io_off;}
+    if (burner){document.getElementById('burner').innerHTML = io_on;}
+    else {document.getElementById('burner').innerHTML = io_off;}
+}
+setTimeout("newAJAXCommand('data.json?heater=0', updateStatus, true)",500);
+//-->
