@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Owin.Hosting;
+using Topshelf;
 
 namespace Obsession.Service
 {
@@ -11,14 +12,20 @@ namespace Obsession.Service
     {
         static void Main(string[] args)
         {
-            var url = "http://+:5533";
+            HostFactory.Run(h =>
+                {
+                    h.Service<AppStartUp>(c =>
+                        {
+                            c.ConstructUsing(sf => new AppStartUp());
+                            c.WhenStarted(s => s.Start());
+                            c.WhenStopped(s => s.Stop());
+                        });
+                    h.SetServiceName("Obsession");
+                    h.SetDescription("Obsession");
+                    h.SetDisplayName("Obsession");
+                });
 
-            using (WebApp.Start<WebAppStartUp>(url))
-            {
-                Console.WriteLine("Running on {0}", url);
-                Console.WriteLine("Press enter to exit");
-                Console.ReadLine();
-            }
+            Console.ReadLine();
         }
     }
 }
