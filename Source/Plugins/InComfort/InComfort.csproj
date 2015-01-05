@@ -65,9 +65,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Obsession.Core\Core.csproj">
+    <ProjectReference Include="..\..\Obsession.Core\Obsession.Core.csproj">
       <Project>{4541846b-1a29-44fb-9029-663a2ffd623b}</Project>
-      <Name>Core</Name>
+      <Name>Obsession.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

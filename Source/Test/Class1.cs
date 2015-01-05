@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Bluetooth;
 using FluentAssertions;
 using InComfort;
 using NUnit.Framework;
@@ -24,10 +25,16 @@ namespace Tests
         [Test]
         public void CanReadInComfort()
         {
-            var nma = new InComfortReader();
+            var nma = new InComfortReaderService();
             var result = nma.Read();
 
             result.Should().NotBeNull();
+        }
+
+        [Test]
+        public void BluetoothTest()
+        {
+            new BluetoothService().Test();
         }
     }
 }

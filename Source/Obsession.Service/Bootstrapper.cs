@@ -20,6 +20,7 @@ namespace Obsession.Service
             builder.RegisterModule<MongoModule>();
             builder.RegisterModule<P1Module>();
             builder.RegisterModule<InComfortModule>();
+            builder.RegisterModule<YahooWeatherModule>();
 
             return builder.Build();
         }

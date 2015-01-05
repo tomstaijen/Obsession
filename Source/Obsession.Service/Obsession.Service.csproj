@@ -94,6 +94,7 @@
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="BugsController.cs" />
+    <Compile Include="Configuration\YahooWeatherModule.cs" />
     <Compile Include="HomeModule.cs" />
     <Compile Include="Configuration\ElasticModule.cs" />
     <Compile Include="Configuration\InComfortModule.cs" />
@@ -115,9 +116,9 @@
     <Content Include="home.html" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Obsession.Core\Core.csproj">
+    <ProjectReference Include="..\Obsession.Core\Obsession.Core.csproj">
       <Project>{4541846b-1a29-44fb-9029-663a2ffd623b}</Project>
-      <Name>Core</Name>
+      <Name>Obsession.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Plugins\InComfort\InComfort.csproj">
       <Project>{f33e0832-fca9-4622-a8e2-36977b9ca1e9}</Project>
