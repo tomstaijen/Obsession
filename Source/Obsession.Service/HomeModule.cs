@@ -4,15 +4,18 @@ using System.Linq;
 using System.Threading;
 using Nancy;
 using Nancy.Owin;
+using Nest;
+using Obsession.Service.Configuration;
 
 namespace Obsession.Service
 {
     public class HomeModule : NancyModule
     {
-        public HomeModule()
+        public HomeModule(ElasticClient client)
         {
             Get["/"] = x =>
             {
+                client.Index("hallo");
                 var env = this.Context.GetOwinEnvironment();
 
                 var requestBody = (Stream)env["owin.RequestBody"];
