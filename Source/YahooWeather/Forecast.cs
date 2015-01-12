@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,11 +20,17 @@ namespace YahooWeather
             public ForecastType[] Forecast { get; set; }    
         }
 
+        [DebuggerDisplay("{City} {Region} {Country}")]
         public class LocationType
         {
             public string City { get; set; }
             public string Country { get; set; }
             public string Region { get; set; }
+
+            public override string ToString()
+            {
+                return string.Format("{0} ({1}) - {2}", City, Region, Country);
+            }
         }
 
         public class ConditionType
@@ -35,7 +42,14 @@ namespace YahooWeather
 
             public double TempCelcius
             {
-                get { return (Convert.ToDouble(Temp) - 32)/1.8; }
+                get { 
+                    var temp = (Convert.ToDouble(Temp) - 32)/1.8;
+
+                    temp = temp*2;
+                    temp = Math.Round(temp, 0);
+                    temp = temp/2;
+                    return temp;
+                }
             }
 
         }
