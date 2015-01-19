@@ -165,6 +165,10 @@
       <Project>{a4286771-0b83-4e59-8ead-55681e90732c}</Project>
       <Name>P1Reader</Name>
     </ProjectReference>
+    <ProjectReference Include="..\YahooWeather\YahooWeather.csproj">
+      <Project>{29815adf-e998-4174-bb4e-f28f03e7818a}</Project>
+      <Name>YahooWeather</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="NewFolder1\" />

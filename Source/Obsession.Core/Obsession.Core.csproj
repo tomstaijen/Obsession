@@ -50,15 +50,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActorConfigurator.cs" />
-    <Compile Include="ActorRegistry.cs" />
-    <Compile Include="ActorRunner.cs" />
-    <Compile Include="Class1.cs" />
+    <Compile Include="Behavior.cs" />
     <Compile Include="Configuration.cs" />
-    <Compile Include="IContainerProvider.cs" />
     <Compile Include="INotificationPlugin.cs" />
+    <Compile Include="IParamValueProvider.cs" />
+    <Compile Include="IRealTimeProvider.cs" />
     <Compile Include="IService.cs" />
+    <Compile Include="Params\BooleanParam.cs" />
+    <Compile Include="Params\NumericParam.cs" />
+    <Compile Include="Params\Param.cs" />
+    <Compile Include="Params\StringParam.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AutoUpdater.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

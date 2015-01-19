@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Obsession.Core
 {
-    public class ActorRegistry
+    public interface IStateProvider<T>
     {
+        T GetCurrent();
     }
 }

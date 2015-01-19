@@ -32,6 +32,5 @@ namespace Test
 
             (result as object).Should().NotBeNull();
         }
-
     }
 }
