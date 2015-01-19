@@ -5,42 +5,28 @@ using System.Threading;
 using Nancy;
 using Nancy.Owin;
 using Nest;
+using Obsession.Core;
 using Obsession.Service.Configuration;
 
 namespace Obsession.Service
 {
     public class HomeModule : NancyModule
     {
-        public HomeModule(ElasticClient client)
+        public HomeModule(ElasticClient client, IEnumerable<IParamValueProvider> providers)
         {
             Get["/"] = x =>
-            {
-                client.Index("hallo");
-                var env = this.Context.GetOwinEnvironment();
+                {
+                    string view = "";
 
-                var requestBody = (Stream)env["owin.RequestBody"];
-                var requestHeaders = (IDictionary<string, string[]>)env["owin.RequestHeaders"];
-                var requestMethod = (string)env["owin.RequestMethod"];
-                var requestPath = (string)env["owin.RequestPath"];
-                var requestPathBase = (string)env["owin.RequestPathBase"];
-                var requestProtocol = (string)env["owin.RequestProtocol"];
-                var requestQueryString = (string)env["owin.RequestQueryString"];
-                var requestScheme = (string)env["owin.RequestScheme"];
-
-                var responseBody = (Stream)env["owin.ResponseBody"];
-                var responseHeaders = (IDictionary<string, string[]>)env["owin.ResponseHeaders"];
-
-                var owinVersion = (string)env["owin.Version"];
-                var cancellationToken = (CancellationToken)env["owin.CallCancelled"];
-
-                var uri = (string)env["owin.RequestScheme"] + "://" + requestHeaders["Host"].First() +
-                  (string)env["owin.RequestPathBase"] + (string)env["owin.RequestPath"];
-
-                if (env["owin.RequestQueryString"] != "")
-                    uri += "?" + (string)env["owin.RequestQueryString"];
-
-                return string.Format("{0} {1}", requestMethod, uri);
-            };
+                    foreach (var provider in providers)
+                    {
+                        foreach (var param in provider.GetParams())
+                        {
+                            view += string.Format("<p>{0} = {1}</p>", param.Name, param.ToString());
+                        }
+                    }
+                    return view;
+                };
 
 //            Get["/"] = _ =>
 //                {

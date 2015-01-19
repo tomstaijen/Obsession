@@ -14,16 +14,22 @@ namespace Obsession.Service.Configuration
         protected override void Load(ContainerBuilder builder)
         {
             // providers the api to yahoo
-            builder.RegisterType<YahooWeatherApi>().SingleInstance();
+            builder.RegisterInstance(new YahooWeatherApi("nl-nl")).SingleInstance();
             
-            // provides the configuration
+            // register the configuration
+            builder.RegisterInstance(new WeatherConfiguration()
+                {
+                    WoeId = 729087
+                });
+
+            // provides the configuration to the api
             builder.RegisterType<WeatherProvider>().As<IWeatherProvider>();
             
             // transform the provider into a func
             builder.Register(c => c.Resolve<IWeatherProvider>().GetWeather()).As<Forecast>();
 
             // store and update the current version
-            builder.RegisterType<AutoUpdater<Forecast>>().As<IStateProvider<Forecast>>();
+            builder.RegisterType<AutoUpdater<Forecast>>().As<IStateProvider<Forecast>>().SingleInstance();
             // configure the expiration
             builder.RegisterInstance(new Expiration<Forecast> {Value = new TimeSpan(0, 0, 15, 0)});
 

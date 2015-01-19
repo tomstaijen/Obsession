@@ -9,5 +9,10 @@ namespace Obsession.Core.Params
     public class NumericParam : Param
     {
         public double? Value { get; set; }
+
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
     }
 }
