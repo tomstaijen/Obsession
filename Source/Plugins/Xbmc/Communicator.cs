@@ -12,6 +12,22 @@ using Newtonsoft.Json.Linq;
 
 namespace Xbmc
 {
+    public class XbmcConfiguration
+    {
+        public string Host { get; set; }
+        public int Port { get; set; }
+    }
+
+    public class XbmcApi
+    {
+        private readonly XbmcConfiguration _configuration;
+
+        public XbmcApi(XbmcConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+    }
+
     public class JsonRpcRequest
     {
         public JsonRpcRequest()
@@ -37,11 +53,6 @@ namespace Xbmc
 
         [JsonProperty("id")]
         public object Id { get; private set; }
-    }
-
-    class JsonRpcResponse
-    {
-        
     }
 
     public class Communicator
