@@ -25,7 +25,10 @@ namespace Tests
         [Test]
         public void CanReadInComfort()
         {
-            var nma = new InComfortReaderService();
+            var nma = new InComfortReaderService(new InComfortConfiguration()
+                {
+                    Host = "192.168.3.55"
+                });
             var result = nma.Read();
 
             result.Should().NotBeNull();

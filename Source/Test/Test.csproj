@@ -71,6 +71,7 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="DenonTest.cs" />
+    <Compile Include="Engine1Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XbmcTest.cs" />
     <Compile Include="YahooWeatherTest.cs" />

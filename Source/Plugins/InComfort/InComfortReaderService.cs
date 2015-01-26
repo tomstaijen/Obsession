@@ -8,14 +8,26 @@ using Newtonsoft.Json;
 
 namespace InComfort
 {
+    public class InComfortConfiguration
+    {
+        public string Host { get; set; }
+    }
+
     public class InComfortReaderService : IService
     {
+        private readonly InComfortConfiguration _configuration;
+
+        public InComfortReaderService(InComfortConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         private bool _continue = true;
 
         public ReadableInComfortData Read()
         {
             var client = new HttpClient();
-            var response = client.GetAsync("http://192.168.3.55/data.json?heater=0");
+            var response = client.GetAsync(string.Format("http://{0}/data.json?heater=0", _configuration.Host));
 
             if (response.Result.StatusCode == HttpStatusCode.OK)
             {

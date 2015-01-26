@@ -9,12 +9,13 @@ namespace Obsession.Service.Modules
         {
             Get["/react"] = _ =>
             {
-                var hellojs = react.LoadJsxFile("~/views/hello.jsx");
-                react.Execute(hellojs);
-                var component = react.CreateComponent("HelloWorld", new Person { firstName = "Prabir", lastName = "Shrestha" });
+                var s =  react.JsxTransformer.TransformJsxFile("~/views/hello.jsx");
+                return s;
+//                react.Execute(hellojs);
+//                var component = react.CreateComponent("HelloWorld", new Person { firstName = "Prabir", lastName = "Shrestha" });
                 /// var component = react.CreateComponent("HelloWorld", new { firstName = "Prabir", lastName = "Shrestha" });
-                var html = component.RenderHtml();
-                return html;
+//                var html = component.RenderHtml();
+//                return html;
             };            
         }
     }
