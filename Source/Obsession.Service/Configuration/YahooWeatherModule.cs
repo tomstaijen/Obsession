@@ -29,7 +29,7 @@ namespace Obsession.Service.Configuration
             builder.Register(c => c.Resolve<IWeatherProvider>().GetWeather()).As<Forecast>();
 
             // store and update the current version
-            builder.RegisterType<AutoUpdater<Forecast>>().As<IStateProvider<Forecast>>().SingleInstance();
+            builder.RegisterType<ExpirationUpdater<Forecast>>().As<IStateProvider<Forecast>>().SingleInstance();
             // configure the expiration
             builder.RegisterInstance(new Expiration<Forecast> {Value = new TimeSpan(0, 0, 15, 0)});
 

@@ -3,7 +3,9 @@
 var HelloWorld = React.createClass({
     render: function () {
         return (
-            <div>Hello {this.props.firstName} {this.props.lastName}.</div>
+            <div>Hello World.</div>
         );
     }
 });
+
+React.render(<HelloWorld/>, document.getElementById('example'));

@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="http://fb.me/react-0.12.2.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+    <link rel="stylesheet" href="/content/styles/menu.css">
+</head>
+    <body>
+        <div id="layout">
+            <div id="menu">
+                <div class="pure-menu pure-menu-open">
+                    <a class="pure-menu-heading" href="/">Pure</a>
+                    <ul>
+                        <li class=" "><a href="/start/">Get Started</a></li>
+                        <li class=" pure-menu-selected"><a href="/layouts/">Layouts</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="example"></div>
+        </div>
+        <script type='text/javascript' src="/scripts/components/hello.jsx"></script>
+        <script type="text/javascript">
+            React.render(
+                React.createElement(HelloWorld, null),
+                document.getElementById('example')
+            );
+        </script>
+    </body>
+</html>

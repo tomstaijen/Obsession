@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Timers;
+
 
 namespace Obsession.Core
 {
@@ -11,14 +12,41 @@ namespace Obsession.Core
         public TimeSpan Value { get; set; }
     }
 
-    public class AutoUpdater<T> : IStateProvider<T> where T : class
+    public class ContinuousUpdater<T> : IStateProvider<T> where T : class, IDisposable
+    {
+        private readonly Func<T> _updateFunc;
+        private readonly Expiration<T> _expiration;
+        private T _current;
+
+        private Timer _timer;
+
+        public ContinuousUpdater(Func<T> updateFunc, Expiration<T> expiration)
+        {
+            _updateFunc = updateFunc;
+            _expiration = expiration;
+            _timer = new Timer();
+            _timer.Elapsed += Elapsed;
+        }
+
+        protected void Elapsed(object source, ElapsedEventArgs args)
+        {
+            _current = _updateFunc();
+        }
+
+        public T GetCurrent()
+        {
+            return _current;
+        }
+    }
+
+    public class ExpirationUpdater<T> : IStateProvider<T> where T : class
     {
         private State<T> LastState { get; set; } 
 
         private readonly Func<T> _updateFunc;
         private readonly TimeSpan _expiration;
 
-        public AutoUpdater(Func<T> updateFunc, Expiration<T> expiration)
+        public ExpirationUpdater(Func<T> updateFunc, Expiration<T> expiration)
         {
             _updateFunc = updateFunc;
             _expiration = expiration.Value;

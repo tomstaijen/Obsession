@@ -61,7 +61,7 @@
     <Compile Include="Params\Param.cs" />
     <Compile Include="Params\StringParam.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AutoUpdater.cs" />
+    <Compile Include="ExpirationUpdater.cs" />
     <Compile Include="Rules\Engine1\FunctionFactory.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -7,7 +7,7 @@ namespace Obsession.Service.Modules
     {
         public ReactTestModule(IReactEnvironment react)
         {
-            Get["/react"] = _ =>
+            Get[@"(?<imagepath>.*)(?<imagename>.*.jsx)"] = _ =>
             {
                 var s =  react.JsxTransformer.TransformJsxFile("~/views/hello.jsx");
                 return s;

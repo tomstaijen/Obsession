@@ -17,6 +17,9 @@ namespace Obsession.Service.Configuration
     {
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<CustomRootPathProvider>().As<IRootPathProvider>();
+
+
             builder.RegisterInstance(ReactSiteConfiguration.Configuration).As<IReactSiteConfiguration>();
             
             builder.RegisterType<FileCacheHash>().As<IFileCacheHash>().InstancePerLifetimeScope();

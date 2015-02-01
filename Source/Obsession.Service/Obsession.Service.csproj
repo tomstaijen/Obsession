@@ -123,10 +123,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="BugsController.cs" />
     <Compile Include="Configuration\ReactModule.cs" />
     <Compile Include="Configuration\YahooWeatherModule.cs" />
-    <Compile Include="HomeModule.cs" />
+    <Compile Include="Modules\HomeModule.cs" />
     <Compile Include="Configuration\ElasticModule.cs" />
     <Compile Include="Configuration\InComfortModule.cs" />
     <Compile Include="Configuration\MongoModule.cs" />
@@ -134,7 +133,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AppStartUp.cs" />
-    <Compile Include="Modules\ReactTestModule.cs" />
+    <Compile Include="ReactStuff\CustomRootPathProvider.cs" />
     <Compile Include="ReactStuff\NancyReactFilesystem.cs" />
     <Compile Include="ReactStuff\NullReactCache.cs" />
     <Compile Include="WebAppStartUp.cs" />
@@ -142,15 +141,15 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <Content Include="views\hello.jsx">
+    <Content Include="content\styles\menu.css" />
+    <Content Include="Scripts\components\hello.jsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="content\assets\Test.html">
+    <Content Include="content\pages\index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="home.html" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Obsession.Core\Obsession.Core.csproj">
@@ -170,7 +169,9 @@
       <Name>YahooWeather</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="NewFolder1\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
