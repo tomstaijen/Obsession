@@ -69,10 +69,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="NotifyMyAndroidTest.cs" />
     <Compile Include="DenonTest.cs" />
     <Compile Include="Engine1Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RfxTest.cs" />
     <Compile Include="XbmcTest.cs" />
     <Compile Include="YahooWeatherTest.cs" />
     <Compile Include="ZeroconfTest.cs" />
@@ -97,6 +98,10 @@
     <ProjectReference Include="..\Obsession.Core\Obsession.Core.csproj">
       <Project>{4541846b-1a29-44fb-9029-663a2ffd623b}</Project>
       <Name>Obsession.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Obsession.Rfxcom\Obsession.Rfxcom.csproj">
+      <Project>{1f0055b2-795b-47d4-a82b-dbfb2221205b}</Project>
+      <Name>Obsession.Rfxcom</Name>
     </ProjectReference>
     <ProjectReference Include="..\Plugins\Denon\Denon.csproj">
       <Project>{254e941d-1f02-44b7-8667-3aa92b8d0462}</Project>

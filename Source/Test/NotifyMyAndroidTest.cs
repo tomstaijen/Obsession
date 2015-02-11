@@ -11,7 +11,7 @@ using NotifyMyAndroid;
 
 namespace Tests
 {
-    public class Class1
+    public class NotifyMyAndroidTest
     {
         [Test]
         public void CanNotifyMyAndroid()
