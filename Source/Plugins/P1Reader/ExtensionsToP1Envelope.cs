@@ -49,6 +49,18 @@ namespace P1Reader
             return envelope;
         }
 
+        /// <summary>
+        /// 		[34]	"0-1:24.2.1(150309140000W)(01122.585*m3)\r\n"	string
+        /// </summary>
+        /// <param name="envelope"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static P1Envelope SetGassMeter(this P1Envelope envelope, string meterValue)
+        {
+            envelope.Gass = float.Parse(meterValue.RemoveUnit("m3"), CultureInfo.InvariantCulture);
+            return envelope;
+        }
+
         public static string[] GetValuesForReference(this string[] lines, string reference)
         {
             return lines.Single(s => s.StartsWith(reference)).GetValues();
@@ -63,8 +75,7 @@ namespace P1Reader
             result.SetPowerMeter2(lines.GetValuesForReference(P1Definition.PowerMeter2).First());
             result.SetPowerDelivery(lines.GetValuesForReference(P1Definition.PowerDelivery).First());
             result.SetTariff(lines.GetValuesForReference(P1Definition.PowerTariff).First());
-
-
+            result.SetGassMeter(lines.GetValuesForReference(P1Definition.GassMeter)[1]);
             return result;
         }
 

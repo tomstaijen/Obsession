@@ -31,5 +31,9 @@ namespace P1Reader
         /// </summary>
         public float PowerDelivery { get; set; }
 
+        /// <summary>
+        /// m3
+        /// </summary>
+        public float Gass { get; set; }
     }
 }

@@ -72,6 +72,7 @@
     <Compile Include="NotifyMyAndroidTest.cs" />
     <Compile Include="DenonTest.cs" />
     <Compile Include="Engine1Test.cs" />
+    <Compile Include="P1ReaderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RfxTest.cs" />
     <Compile Include="XbmcTest.cs" />
