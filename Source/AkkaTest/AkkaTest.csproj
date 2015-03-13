@@ -4,17 +4,18 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4541846B-1A29-44FB-9029-663A2FFD623B}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{26D1D347-D6D9-452B-A5C8-39C25FDBF10E}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Obsession.Core</RootNamespace>
-    <AssemblyName>Obsession.Core</AssemblyName>
+    <RootNamespace>AkkaTest</RootNamespace>
+    <AssemblyName>AkkaTest</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,6 +25,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -32,27 +34,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Akka">
-      <HintPath>..\packages\Akka.0.8.0\lib\net45\Akka.dll</HintPath>
-    </Reference>
-    <Reference Include="Akka.DI.AutoFac">
-      <HintPath>..\packages\Akka.DI.AutoFac.0.8.0\lib\net45\Akka.DI.AutoFac.dll</HintPath>
-    </Reference>
-    <Reference Include="Akka.DI.Core">
-      <HintPath>..\packages\Akka.DI.Core.0.8.0\lib\net45\Akka.DI.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Autofac">
-      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
-    </Reference>
-    <Reference Include="Magnum">
-      <HintPath>..\packages\Magnum.2.1.3\lib\NET40\Magnum.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Stact">
-      <HintPath>..\packages\Stact.1.1.3\lib\NET40\Stact.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -63,22 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Behavior.cs" />
-    <Compile Include="Configuration.cs" />
-    <Compile Include="INotificationPlugin.cs" />
-    <Compile Include="IParamValueProvider.cs" />
-    <Compile Include="IRealTimeProvider.cs" />
-    <Compile Include="IService.cs" />
-    <Compile Include="ModuleCoordinator.cs" />
-    <Compile Include="Params\BooleanParam.cs" />
-    <Compile Include="Params\NumericParam.cs" />
-    <Compile Include="Params\Param.cs" />
-    <Compile Include="Params\StringParam.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ExpirationUpdater.cs" />
-    <Compile Include="Rules\Engine1\FunctionFactory.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

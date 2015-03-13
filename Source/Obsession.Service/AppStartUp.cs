@@ -19,21 +19,23 @@ namespace Obsession.Service
         public void Start()
         {
             TheWebApp = WebApp.Start<WebAppStartUp>("http://+:5534");
-//
-//            var s1 = new P1ReaderService()
-//                {
-//                    Host = "192.168.3.29"
-//                };
-//
-//            new Task(s1.Start).Start();
-//
-//            _services.Add(s1);
-//
-//            var s2 = new InComfortReaderService();
-//            new Task(s2.Start).Start();
-//
-//            _services.Add(s2);
 
+            var s1 = new P1ReaderService()
+                {
+                    Host = "192.168.3.29"
+                };
+            new Task(s1.Start).Start();
+
+            _services.Add(s1);
+
+            var s2 = new InComfortReaderService(new InComfortConfiguration()
+                {
+                    Host = "192.168.3.55"
+                });
+
+            new Task(s2.Start).Start();
+
+            _services.Add(s2);
         }
 
         public void Stop()

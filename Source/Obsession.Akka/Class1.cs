@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Obsession.Core.Stact
+namespace Obsession.Akka
 {
-    class Stactor
+    public class Class1
     {
     }
 }
