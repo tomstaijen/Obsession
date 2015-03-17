@@ -82,15 +82,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AkkaTest.cs" />
-    <Compile Include="NotifyMyAndroidTest.cs" />
-    <Compile Include="DenonTest.cs" />
-    <Compile Include="Engine1Test.cs" />
-    <Compile Include="P1ReaderTest.cs" />
+    <Compile Include="Engine\Lua\LuaTest.cs" />
+    <Compile Include="Plugins\NotifyMyAndroidTest.cs" />
+    <Compile Include="Plugins\DenonTest.cs" />
+    <Compile Include="Engine\Engine1Test.cs" />
+    <Compile Include="Plugins\P1ReaderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RfxTest.cs" />
-    <Compile Include="XbmcTest.cs" />
-    <Compile Include="YahooWeatherTest.cs" />
-    <Compile Include="ZeroconfTest.cs" />
+    <Compile Include="Plugins\RfxTest.cs" />
+    <Compile Include="Plugins\XbmcTest.cs" />
+    <Compile Include="Plugins\YahooWeatherTest.cs" />
+    <Compile Include="Plugins\ZeroconfTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -112,6 +113,10 @@
     <ProjectReference Include="..\Obsession.Core\Obsession.Core.csproj">
       <Project>{4541846b-1a29-44fb-9029-663a2ffd623b}</Project>
       <Name>Obsession.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Obsession.Internal.LuaEngine\Obsession.Internal.LuaEngine.csproj">
+      <Project>{484debfc-4fe3-4b57-b767-948dfcf13547}</Project>
+      <Name>Obsession.Internal.LuaEngine</Name>
     </ProjectReference>
     <ProjectReference Include="..\Obsession.Rfxcom\Obsession.Rfxcom.csproj">
       <Project>{1f0055b2-795b-47d4-a82b-dbfb2221205b}</Project>
