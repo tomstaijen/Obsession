@@ -42,6 +42,7 @@ namespace Obsession.Internal.LuaEngine
         public T Retrieve<T>(string expr)
         {
             var dynValue = _script.DoString(expr);
+            return dynValue.ToObject<T>();
         }
     }
 

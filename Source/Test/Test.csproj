@@ -85,7 +85,6 @@
     <Compile Include="Engine\Lua\LuaTest.cs" />
     <Compile Include="Plugins\NotifyMyAndroidTest.cs" />
     <Compile Include="Plugins\DenonTest.cs" />
-    <Compile Include="Engine\Engine1Test.cs" />
     <Compile Include="Plugins\P1ReaderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Plugins\RfxTest.cs" />

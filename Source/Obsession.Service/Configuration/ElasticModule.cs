@@ -14,7 +14,7 @@ namespace Obsession.Service.Configuration
                 defaultIndex: "obsession"
                 );
 
-            builder.Register(c => new ElasticClient(settings)).As<ElasticClient>().InstancePerLifetimeScope();
+            builder.Register(c => new ElasticClient(settings)).As<IElasticClient>().InstancePerLifetimeScope();
         }
     }
 }

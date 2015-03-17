@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4541846B-1A29-44FB-9029-663A2FFD623B}</ProjectGuid>
+    <ProjectGuid>{B8C6EB74-FA35-40D1-987A-F59A2AABC82C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Obsession.Core</RootNamespace>
-    <AssemblyName>Obsession.Core</AssemblyName>
+    <RootNamespace>Obsession.Elastic</RootNamespace>
+    <AssemblyName>Obsession.Elastic</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -32,27 +32,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Akka">
-      <HintPath>..\packages\Akka.0.8.0\lib\net45\Akka.dll</HintPath>
+    <Reference Include="Elasticsearch.Net">
+      <HintPath>..\packages\Elasticsearch.Net.1.3.0\lib\Elasticsearch.Net.dll</HintPath>
     </Reference>
-    <Reference Include="Akka.DI.AutoFac">
-      <HintPath>..\packages\Akka.DI.AutoFac.0.8.0\lib\net45\Akka.DI.AutoFac.dll</HintPath>
+    <Reference Include="Nest">
+      <HintPath>..\packages\NEST.1.3.0\lib\Nest.dll</HintPath>
     </Reference>
-    <Reference Include="Akka.DI.Core">
-      <HintPath>..\packages\Akka.DI.Core.0.8.0\lib\net45\Akka.DI.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Autofac">
-      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
-    </Reference>
-    <Reference Include="Magnum">
-      <HintPath>..\packages\Magnum.2.1.3\lib\NET40\Magnum.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Stact">
-      <HintPath>..\packages\Stact.1.1.3\lib\NET40\Stact.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -63,24 +50,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Behavior.cs" />
-    <Compile Include="Configuration.cs" />
-    <Compile Include="INotificationPlugin.cs" />
-    <Compile Include="IParamValueProvider.cs" />
-    <Compile Include="IRealTimeProvider.cs" />
-    <Compile Include="Rules\IRuleStore.cs" />
-    <Compile Include="IService.cs" />
-    <Compile Include="ModuleCoordinator.cs" />
-    <Compile Include="Params\BooleanParam.cs" />
-    <Compile Include="Params\NumericParam.cs" />
-    <Compile Include="Params\Param.cs" />
-    <Compile Include="Params\StringParam.cs" />
+    <Compile Include="ElasticRuleStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ExpirationUpdater.cs" />
-    <Compile Include="Rules\Rule.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Obsession.Core\Obsession.Core.csproj">
+      <Project>{4541846B-1A29-44FB-9029-663A2FFD623B}</Project>
+      <Name>Obsession.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
