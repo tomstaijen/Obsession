@@ -63,11 +63,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Behavior.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Configuration.cs" />
-    <Compile Include="INotificationPlugin.cs" />
-    <Compile Include="IParamValueProvider.cs" />
-    <Compile Include="IRealTimeProvider.cs" />
+    <Compile Include="Effectors\INotificationPlugin.cs" />
+    <Compile Include="Persistence\Interface1.cs" />
+    <Compile Include="Persistence\IStore.cs" />
+    <Compile Include="IStateProvider.cs" />
     <Compile Include="Rules\IRuleStore.cs" />
     <Compile Include="IService.cs" />
     <Compile Include="ModuleCoordinator.cs" />
@@ -76,7 +77,6 @@
     <Compile Include="Params\Param.cs" />
     <Compile Include="Params\StringParam.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ExpirationUpdater.cs" />
     <Compile Include="Rules\Rule.cs" />
   </ItemGroup>
   <ItemGroup>

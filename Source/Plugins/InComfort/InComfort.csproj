@@ -52,7 +52,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="InComfortParamValueProvider.cs" />
     <Compile Include="ReadableInComfortData.cs" />
     <Compile Include="InComfortReaderService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

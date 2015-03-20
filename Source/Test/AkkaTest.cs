@@ -57,7 +57,6 @@ namespace Test
 
         public void Run(string name)
         {
-            
             _service.DoService(name);
         }
     }

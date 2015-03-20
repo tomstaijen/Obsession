@@ -12,19 +12,19 @@ namespace Obsession.Service
 {
     public class HomeModule : NancyModule
     {
-        public HomeModule(ElasticClient client, IEnumerable<IParamValueProvider> providers)
+        public HomeModule(ElasticClient client)
         {
             Get["/"] = x =>
                 {
                     string view = "";
 
-                    foreach (var provider in providers)
-                    {
-                        foreach (var param in provider.GetParams())
-                        {
-                            view += string.Format("<p>{0} = {1}</p>", param.Name, param.ToString());
-                        }
-                    }
+//                    foreach (var provider in providers)
+//                    {
+//                        foreach (var param in provider.GetParams())
+//                        {
+//                            view += string.Format("<p>{0} = {1}</p>", param.Name, param.ToString());
+//                        }
+//                    }
                     return view;
                 };
         }

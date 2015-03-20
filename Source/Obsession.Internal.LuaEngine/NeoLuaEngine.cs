@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,10 +9,47 @@ using Neo.IronLua;
 
 namespace Obsession.Internal.LuaEngine
 {
+    public static class ObjectToDictionaryHelper
+    {
+        public static IDictionary<string, object> ToDictionary(this object source)
+        {
+            return source.ToDictionary<object>();
+        }
+
+        public static IDictionary<string, T> ToDictionary<T>(this object source)
+        {
+            if (source == null)
+                ThrowExceptionWhenSourceArgumentIsNull();
+
+            var dictionary = new Dictionary<string, T>();
+            foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(source))
+                AddPropertyToDictionary<T>(property, source, dictionary);
+            return dictionary;
+        }
+
+        private static void AddPropertyToDictionary<T>(PropertyDescriptor property, object source, Dictionary<string, T> dictionary)
+        {
+            object value = property.GetValue(source);
+            if (IsOfType<T>(value))
+                dictionary.Add(property.Name, (T)value);
+        }
+
+        private static bool IsOfType<T>(object value)
+        {
+            return value is T;
+        }
+
+        private static void ThrowExceptionWhenSourceArgumentIsNull()
+        {
+            throw new ArgumentNullException("source", "Unable to convert object to a dictionary. The source object is null.");
+        }
+    }
+
 
     public interface IEngine
     {
-        void Register(string method, object callback);
+        void RegisterData(string method, object data);
+        void RegisterFunction<T>(string method, Action<T> action);
         object Run(string script);
     }
 
@@ -24,9 +62,15 @@ namespace Obsession.Internal.LuaEngine
             _script = new Script();
         }
 
-        public void Register(string method, object value)
+        public void RegisterData(string method, object value)
         {
-            _script.Globals[method] = value;
+            var valAsDict = value.ToDictionary();
+            _script.Globals[method] = valAsDict;
+        }
+
+        public void RegisterFunction<T>(string name, Action<T> a)
+        {
+            _script.Globals[name] = a;
         }
 
         public object Run(string script)

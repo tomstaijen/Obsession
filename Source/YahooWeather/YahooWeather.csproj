@@ -50,7 +50,6 @@
     <Compile Include="Forecast.cs" />
     <Compile Include="IWeatherService.cs" />
     <Compile Include="Place.cs" />
-    <Compile Include="WeatherParamValueProvider.cs" />
     <Compile Include="YahooWeatherApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
