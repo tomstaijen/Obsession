@@ -1,9 +1,7 @@
-﻿using System;
-using Autofac;
+﻿using Autofac;
 using InComfort;
-using Obsession.Core;
 
-namespace Obsession.Service.Configuration
+namespace Obsession.Service.AutofacModules
 {
     class InComfortModule : Module
     {

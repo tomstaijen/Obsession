@@ -7,10 +7,79 @@ using System.Text;
 using System.Threading.Tasks;
 using Core;
 using Newtonsoft.Json;
+using Obsession.Core;
+using Obsession.Core.Extensions;
 
 namespace NotifyMyAndroid
 {
-    public class NotifyMyAndroidPlugin : INotificationPlugin
+    public class NmaServiceModule : IServiceModule
+    {
+        public static string ApiKeyKey = "NmaApiKey";
+        public static string ApplicationKey = "NmaApplicationKey";
+        public static string Message = "NmaMessageKey";
+
+
+        public StateValues GetState(Configuration configuration)
+        {
+            return null;
+        }
+
+        public bool IsActual(Configuration configuration, StateValues current)
+        {
+            return false;
+        }
+
+        public IModuleInstance GetInstance(Configuration configuration)
+        {
+            return new NmaModuleInstance(configuration);
+        }
+
+        public TimeSpan GetInterval(Configuration configuration)
+        {
+            return TimeSpan.FromDays(1);
+        }
+    }
+
+    public class NmaModuleInstance : IModuleInstance
+    {
+        private readonly Configuration _configuration;
+
+        public NmaModuleInstance(Configuration configuration)
+        {
+            _configuration = configuration;
+        }
+
+        public StateValues GetState()
+        {
+            return null;
+        }
+
+        public IDictionary<string, Delegate> GetActions()
+        {
+            return new Dictionary<string, Delegate>
+                {
+                    {"nma", (Action<string>) Notify }
+                };
+        }
+
+        public bool IsActual(StateValues stateValues)
+        {
+            return true;
+        }
+
+        [RuleActionAttribute("notifyMyAndroid")]
+        public void Notify(string message)
+        {
+            new NotifyMyAndroidService().Notify(
+                _configuration.Values.GetValueOrDefault(NmaServiceModule.ApiKeyKey) as string,
+                _configuration.Values.GetValueOrDefault(NmaServiceModule.ApplicationKey) as string,
+                _configuration.Values.GetValueOrDefault(NmaServiceModule.Message) as string,
+                message
+                );
+        }
+    }
+
+    public class NotifyMyAndroidService
     {
         public bool Verify(string apiKey)
         {
@@ -24,13 +93,13 @@ namespace NotifyMyAndroid
             return statuscode == HttpStatusCode.OK;
         }
 
-        public bool Notify(string message, string description)
+        public bool Notify(string apikey, string application, string message, string description)
         {
             HttpClient client = new HttpClient();
 
             var dict = new Dictionary<string, string>();
-            dict.Add("apikey", "9bdad31063771a8b755088ed25ac4aa00034aad44442d0a3");
-            dict.Add("application", "Obsession.NET");
+            dict.Add("apikey", apikey);
+            dict.Add("application", application);
             dict.Add("event", message);
             dict.Add("description", description);
 
@@ -44,33 +113,6 @@ namespace NotifyMyAndroid
             var statuscode = response.Result.StatusCode;
             return statuscode == HttpStatusCode.OK;
         }
-    }
-
-    public class Notify
-    {
-        [JsonProperty("apikey")]
-        public string ApiKey { get; set; }
-
-        [JsonProperty("application")]
-        public string Application { get; set; }
-
-        [JsonProperty("event")]
-        public string Event { get; set; }
-
-        [JsonProperty("description")]
-        public string Description { get; set; }
-
-        [JsonProperty("priority")]
-        public Priority Priority { get; set; }
-
-        [JsonProperty("developerkey")]
-        public string DeveloperKey { get; set; }
-
-        [JsonProperty("url")]
-        public string Url { get; set; }
-
-        [JsonProperty("content-type")]
-        public string ContentType { get; set; }
     }
 
     public enum Priority : short

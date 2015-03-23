@@ -11,4 +11,6 @@ namespace Obsession.Core.Persistence
         // persist a state for some configuration
         void Persist<T>(Configuration configuration, T state);
     }
+
+
 }

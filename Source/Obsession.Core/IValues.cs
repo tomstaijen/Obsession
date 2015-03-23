@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Obsession.Core
 {
     public interface IValues
     {
-        IDictionary<string, object> GetValues();
+        IDictionary<string, object> Values { get; }
     }
 }

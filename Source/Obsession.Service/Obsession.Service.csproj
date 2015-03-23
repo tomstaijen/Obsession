@@ -132,14 +132,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutofacModules\NmaModule.cs" />
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Configuration\ReactModule.cs" />
-    <Compile Include="Configuration\YahooWeatherModule.cs" />
+    <Compile Include="AutofacModules\AkkaModule.cs" />
+    <Compile Include="AutofacModules\Obsession\ObsessionModule.cs" />
+    <Compile Include="AutofacModules\ReactModule.cs" />
+    <Compile Include="AutofacModules\YahooWeatherModule.cs" />
     <Compile Include="Modules\HomeModule.cs" />
-    <Compile Include="Configuration\ElasticModule.cs" />
-    <Compile Include="Configuration\InComfortModule.cs" />
-    <Compile Include="Configuration\MongoModule.cs" />
-    <Compile Include="Configuration\P1Module.cs" />
+    <Compile Include="AutofacModules\ElasticModule.cs" />
+    <Compile Include="AutofacModules\InComfortModule.cs" />
+    <Compile Include="AutofacModules\MongoModule.cs" />
+    <Compile Include="AutofacModules\P1Module.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AppStartUp.cs" />
@@ -166,9 +169,21 @@
       <Project>{4541846b-1a29-44fb-9029-663a2ffd623b}</Project>
       <Name>Obsession.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Obsession.Elastic\Obsession.Elastic.csproj">
+      <Project>{b8c6eb74-fa35-40d1-987a-f59a2aabc82c}</Project>
+      <Name>Obsession.Elastic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Obsession.Internal.LuaEngine\Obsession.Internal.LuaEngine.csproj">
+      <Project>{484debfc-4fe3-4b57-b767-948dfcf13547}</Project>
+      <Name>Obsession.Internal.LuaEngine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Plugins\InComfort\InComfort.csproj">
       <Project>{f33e0832-fca9-4622-a8e2-36977b9ca1e9}</Project>
       <Name>InComfort</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Plugins\NotifyMyAndroid\NotifyMyAndroid.csproj">
+      <Project>{0756f3ee-c5f2-4620-837f-51b66bb1a119}</Project>
+      <Name>NotifyMyAndroid</Name>
     </ProjectReference>
     <ProjectReference Include="..\Plugins\P1Reader\P1Reader.csproj">
       <Project>{a4286771-0b83-4e59-8ead-55681e90732c}</Project>

@@ -3,9 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Akka.Actor;
+using Akka.DI.AutoFac;
+using Akka.DI.Core;
+using Autofac;
 using Core;
 using InComfort;
 using Microsoft.Owin.Hosting;
+using Obsession.Core;
+using Obsession.Core.Effectors;
 using P1Reader;
 
 namespace Obsession.Service
@@ -14,34 +20,28 @@ namespace Obsession.Service
     {
         public static IDisposable TheWebApp { get; set; }
 
-        public static List<IService> _services = new List<IService>();
-
         public void Start()
         {
-            TheWebApp = WebApp.Start<WebAppStartUp>("http://+:5534");
+            TheWebApp = WebApp.Start<WebAppStartUp>("http://+:5533");
 
-            var s1 = new P1ReaderService()
-                {
-                    Host = "192.168.3.29"
-                };
-            new Task(s1.Start).Start();
+            var container = Bootstrapper.GetContainer();
+            var system = container.Resolve<ActorSystem>();
 
-            _services.Add(s1);
+            IDependencyResolver propsResolver = new AutoFacDependencyResolver(container, system);
 
-            var s2 = new InComfortReaderService(new InComfortConfiguration()
-                {
-                    Host = "192.168.3.55"
-                });
+            var eventActor = system.ActorOf(propsResolver.Create<EventProcessor>());
+            system.EventStream.Subscribe(eventActor, typeof (StateChanged));
 
-            new Task(s2.Start).Start();
+            var actor = system.ActorOf(propsResolver.Create<PluginManager>());
+            actor.Tell(PluginManager.Start);
 
-            _services.Add(s2);
         }
 
         public void Stop()
         {
             TheWebApp.Dispose();
-            _services.ForEach(s => s.Stop());
+            var container = Bootstrapper.GetContainer();
+            container.Resolve<ActorSystem>().Shutdown();
         }
 
     }

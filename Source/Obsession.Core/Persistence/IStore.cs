@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Obsession.Core.Rules;
 
 namespace Obsession.Core.Persistence
 {
-    public interface IStore<out T>
+    public interface IStore<out T> where T : class
     {
         IEnumerable<T> GetThem();
     }
@@ -26,6 +27,24 @@ namespace Obsession.Core.Persistence
         public IEnumerable<Configuration> GetThem()
         {
             return _configurations;
+        }
+    }
+
+    public class StaticRuleStore : IStore<Rule>
+    {
+        public IEnumerable<Rule> GetThem()
+        {
+            return new[]
+                {
+                    new Rule()
+                        {
+                            Name = "Hello",
+                            Script =
+@"
+notify(p1.PowerMeter1)
+"
+                        }
+                };
         }
     }
 }

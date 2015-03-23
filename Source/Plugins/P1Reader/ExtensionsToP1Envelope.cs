@@ -17,8 +17,8 @@ namespace P1Reader
         {
             var dst = timestampValue.Last();
             timestampValue = timestampValue.Substring(0, timestampValue.Length - 1);
-            var dt = DateTime.ParseExact(timestampValue, "yyMMddHHmmss", null, DateTimeStyles.None);
-            envelope.Timestamp = dt;
+            //var dt = DateTime.ParseExact(timestampValue, "yyMMddHHmmss", null, DateTimeStyles.None);
+            envelope.Timestamp = timestampValue;
             envelope.Dst = (dst == 'S');
 
             return envelope;
@@ -64,6 +64,11 @@ namespace P1Reader
         public static string[] GetValuesForReference(this string[] lines, string reference)
         {
             return lines.Single(s => s.StartsWith(reference)).GetValues();
+        }
+
+        public static bool IsValid(this string[] lines)
+        {
+            return lines.Last().StartsWith("!") && lines.First().StartsWith("/");
         }
 
         public static P1Envelope AsP1(this string[] lines)

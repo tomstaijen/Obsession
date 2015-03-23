@@ -23,10 +23,10 @@ namespace Test.Engine.Lua
         public void MoonTest()
         {
             var engine = new MoonEngine();
-            engine.RegisterData("name", "Pietje");
-            engine.RegisterFunction("notify", (Action<string>)Notify);
-            // can override
-            engine.RegisterFunction("notify", (Action<string>)Notify2);
+
+            var context = new Dictionary<string, object>();
+            context.Add("name", "Pietje");
+            context.Add("notify", (Action<string>) Notify);
 
             Console.WriteLine(engine.Run(@"
 a = 'tom';
@@ -51,8 +51,8 @@ return 1+2;
             dictionary.Add("o", o);
 
             var engine = new MoonEngine();
-            engine.RegisterData("hallo", o);
-            engine.RegisterFunction("notify", (Action<string>)Notify);
+            engine.RegisterContext("hallo", o);
+            engine.RegisterContext("notify", (Action<string>)Notify);
 
             Console.WriteLine(engine.Run(@"
                 notify(hallo.DeString);

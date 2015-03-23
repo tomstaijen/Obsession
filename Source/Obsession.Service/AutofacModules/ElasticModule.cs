@@ -1,8 +1,10 @@
 ﻿using System;
 using Autofac;
 using Nest;
+using Obsession.Core.Persistence;
+using Obsession.Elastic;
 
-namespace Obsession.Service.Configuration
+namespace Obsession.Service.AutofacModules
 {
     public class ElasticModule : Module
     {
@@ -15,6 +17,9 @@ namespace Obsession.Service.Configuration
                 );
 
             builder.Register(c => new ElasticClient(settings)).As<IElasticClient>().InstancePerLifetimeScope();
+
+            builder.RegisterGeneric(typeof (ElasticStore<>)).As(typeof (IStore<>));
+            builder.RegisterType<ElasticPersister>().As<IPersister>();
         }
     }
 }

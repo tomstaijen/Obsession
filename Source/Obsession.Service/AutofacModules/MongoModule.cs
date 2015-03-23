@@ -1,6 +1,6 @@
 ﻿using Autofac;
 
-namespace Obsession.Service.Configuration
+namespace Obsession.Service.AutofacModules
 {
     class MongoModule : Module
     {

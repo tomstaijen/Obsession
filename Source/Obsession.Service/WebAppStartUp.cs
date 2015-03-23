@@ -13,11 +13,11 @@ namespace Obsession.Service
               options.PerformPassThrough = context =>
                   context.Response.StatusCode == HttpStatusCode.NotFound);
 
-            var config = new HttpConfiguration();
-            config.Routes.MapHttpRoute("bugs", "api/{Controller}");
-            config.Formatters.Clear();
-            config.Formatters.Add(new JsonMediaTypeFormatter());
-            app.UseWebApi(config);
+//            var config = new HttpConfiguration();
+//            config.Routes.MapHttpRoute("bugs", "api/{Controller}");
+//            config.Formatters.Clear();
+//            config.Formatters.Add(new JsonMediaTypeFormatter());
+//            app.UseWebApi(config);
         }
     }
 }

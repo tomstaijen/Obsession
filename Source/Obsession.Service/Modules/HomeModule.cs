@@ -1,30 +1,25 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading;
+using Autofac;
 using Nancy;
-using Nancy.Owin;
-using Nest;
 using Obsession.Core;
-using Obsession.Service.Configuration;
 
-namespace Obsession.Service
+namespace Obsession.Service.Modules
 {
     public class HomeModule : NancyModule
     {
-        public HomeModule(ElasticClient client)
+        public HomeModule(IStateManager manager)
         {
-            Get["/"] = x =>
+            Get["/values"] = x =>
                 {
                     string view = "";
-
-//                    foreach (var provider in providers)
-//                    {
-//                        foreach (var param in provider.GetParams())
-//                        {
-//                            view += string.Format("<p>{0} = {1}</p>", param.Name, param.ToString());
-//                        }
-//                    }
+                    
+                    foreach (var moduleState in manager.GetActualState())
+                    {
+                        foreach (var value in moduleState.Value as IDictionary<string, object>)
+                        {
+                            view += string.Format("<p>{0}.{1} = {2}</p>", moduleState.Key, value.Key, value.Value.ToString());
+                        }
+                    }
                     return view;
                 };
         }

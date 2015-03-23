@@ -5,6 +5,7 @@ using System.Threading;
 using Core;
 using Nest;
 using Newtonsoft.Json;
+using Obsession.Core;
 
 namespace InComfort
 {
@@ -13,7 +14,7 @@ namespace InComfort
         public string Host { get; set; }
     }
 
-    public class InComfortReaderService : IService
+    public class InComfortReaderService // : IServiceModule
     {
         private readonly InComfortConfiguration _configuration;
 

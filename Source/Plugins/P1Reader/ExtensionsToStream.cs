@@ -31,7 +31,7 @@ namespace P1Reader
             return line[0] == '!';
         }
 
-        public static bool ReadP1(this BinaryReader reader, Action<P1Envelope> callback)
+        public static P1Envelope ReadP1(this BinaryReader reader) 
         {
             string line;
             var lines = new List<string>();
@@ -42,7 +42,22 @@ namespace P1Reader
                 lines.Add(line);
             } while (!IsFooter(line));
 
-            var p1 = lines.ToArray().AsP1();
+            var a = lines.ToArray();
+
+            if (a.IsValid())
+            {
+                return a.AsP1();
+            }
+            else
+            {
+                Console.WriteLine("Invalid P1 message");
+                return null;
+            }
+        }
+
+        public static bool ReadP1(this BinaryReader reader, Action<P1Envelope> callback)
+        {
+            var p1 = ReadP1(reader);
 
             callback(p1);
 

@@ -7,9 +7,9 @@ namespace P1Reader
         /// <summary>
         /// Daylight saving time
         /// </summary>
-        public bool Dst { get; set; }   
-            
-        public DateTime Timestamp { get; set; }
+        public bool Dst { get; set; }
+
+        public string Timestamp { get; set; }
 
         /// <summary>
         /// kWh

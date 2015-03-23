@@ -70,7 +70,6 @@
   <ItemGroup>
     <Compile Include="ExtensionsToP1Envelope.cs" />
     <Compile Include="ExtensionsToStream.cs" />
-    <Compile Include="P1Actor.cs" />
     <Compile Include="P1Envelope.cs" />
     <Compile Include="P1Message.cs" />
     <Compile Include="P1ReaderService.cs" />

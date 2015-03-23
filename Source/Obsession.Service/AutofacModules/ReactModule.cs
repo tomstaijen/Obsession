@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autofac;
+﻿using Autofac;
 using JavaScriptEngineSwitcher.Jint;
 using JavaScriptEngineSwitcher.Msie;
 using JavaScriptEngineSwitcher.Msie.Configuration;
@@ -11,7 +6,7 @@ using Nancy;
 using Obsession.Service.ReactStuff;
 using React;
 
-namespace Obsession.Service.Configuration
+namespace Obsession.Service.AutofacModules
 {
     public class ReactModule : Module
     {

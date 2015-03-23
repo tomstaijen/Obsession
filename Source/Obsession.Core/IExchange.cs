@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core
+namespace Obsession.Core
 {
-    public interface IService
+    interface IExchange
     {
-        void Start();
-        void Stop();
+        void Publish<T>(T message) where T : class;
     }
 }

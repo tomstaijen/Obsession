@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autofac;
-using Obsession.Core;
+﻿using Autofac;
 using YahooWeather;
 
-namespace Obsession.Service.Configuration
+namespace Obsession.Service.AutofacModules
 {
     public class YahooWeatherModule : Module
     {
