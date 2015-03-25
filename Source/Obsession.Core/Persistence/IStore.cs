@@ -41,7 +41,14 @@ namespace Obsession.Core.Persistence
                             Name = "Hello",
                             Script =
 @"
-notify(p1.PowerMeter1)
+notify(heating.RoomTemp1)
+
+if 
+    heating.RoomTemp1 > 19
+then 
+    heating.setTemp(15)
+    notify('set temp to 15')
+end
 "
                         }
                 };

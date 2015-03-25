@@ -39,7 +39,7 @@ namespace Obsession.Core.Effectors
                     actor.Tell(new PluginStart { Configuration = config });
                     _pluginActors.Add(config.ObjectName, actor);
 
-                    var timestamp = _modules[config.ModuleName].GetInterval(config);
+                    //var timestamp = _modules[config.ModuleName].GetInterval(config);
 
                 }
             }

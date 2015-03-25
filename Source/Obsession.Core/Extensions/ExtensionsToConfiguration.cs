@@ -8,11 +8,22 @@ namespace Obsession.Core.Extensions
 {
     public static class ExtensionsToConfiguration
     {
-        public static string PersistStateKey = "PersistState";
-
-        public static bool PersistState(this Configuration config)
+        public static Configuration WithValue(this Configuration config, string key, object value)
         {
-            return true;
+            config.Values.Add(key, value);
+            return config;
         }
+
+        public static T GetValue<T>(this Configuration config, string key, T def = default(T))
+        {
+            if (!config.Values.ContainsKey(key))
+                return def;
+            var value = config.Values[key];
+
+            if (value is T)
+                return (T) value;
+            return def;
+        }
+        
     }
 }

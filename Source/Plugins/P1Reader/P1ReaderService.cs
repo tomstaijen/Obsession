@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
-using Core;
-using Nest;
 using Obsession.Core;
 
 namespace P1Reader

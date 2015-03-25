@@ -63,9 +63,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Effectors\EventProcessor.cs" />
-    <Compile Include="Effectors\PluginController.cs" />
-    <Compile Include="Effectors\PluginManager.cs" />
     <Compile Include="Extensions\ExtensionsToActorSystem.cs" />
     <Compile Include="Extensions\ExtensionsToConfiguration.cs" />
     <Compile Include="Extensions\ExtensionsToIDictionary.cs" />
@@ -75,9 +72,9 @@
     <Compile Include="Interface1.cs" />
     <Compile Include="Persistence\IPersister.cs" />
     <Compile Include="RuleActionAttribute.cs" />
+    <Compile Include="ScriptException.cs" />
     <Compile Include="StateValues.cs" />
     <Compile Include="Configuration.cs" />
-    <Compile Include="Effectors\INotificationPlugin.cs" />
     <Compile Include="IValues.cs" />
     <Compile Include="Persistence\IStatePersister.cs" />
     <Compile Include="Persistence\IStore.cs" />

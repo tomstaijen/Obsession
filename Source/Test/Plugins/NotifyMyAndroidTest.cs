@@ -8,6 +8,7 @@ using FluentAssertions;
 using InComfort;
 using NUnit.Framework;
 using NotifyMyAndroid;
+using Obsession.Core;
 
 namespace Tests
 {
@@ -25,11 +26,8 @@ namespace Tests
         [Test]
         public void CanReadInComfort()
         {
-            var nma = new InComfortReaderService(new InComfortConfiguration()
-                {
-                    Host = "192.168.3.55"
-                });
-            var result = nma.Read();
+            var nma = new InComfortService();
+            var result = nma.Read("192.168.3.55");
 
             result.Should().NotBeNull();
         }

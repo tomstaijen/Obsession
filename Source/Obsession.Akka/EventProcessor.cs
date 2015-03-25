@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Akka.Actor;
+using Akka.Event;
 using Autofac.Features.Indexed;
 using Autofac.Features.OwnedInstances;
 using Obsession.Core.Persistence;
@@ -13,6 +14,8 @@ namespace Obsession.Core.Effectors
 {
     public class EventProcessor : ReceiveActor
     {
+        private static LoggingAdapter _log = Logging.GetLogger(Context);
+
         private readonly IStateManager _stateManager;
         private readonly Func<Owned<IEngine>> _engineFactory;
         private readonly IStore<Rule> _ruleStore;
@@ -35,25 +38,36 @@ namespace Obsession.Core.Effectors
         /// <returns></returns>
         public bool HandleStateChange(StateChanged message)
         {
+            _log.Info("Recieved state from {0}@{1}", message.Configuration.ObjectName, message.Configuration.ModuleName);
             _stateManager.SetState(message.Configuration, message.State);
             
             using (var engineHolder = _engineFactory())
             {
                 var engine = engineHolder.Value;
                 var context = _engineContextProvider.GetContext();
-                context.Add("notify", (Action<string>) Notify);
+                
                 engine.RegisterContext(context);
                 foreach (var rule in _ruleStore.GetThem())
                 {
-                    engine.Run(rule.Script);
+                    try
+                    {
+                        var r = rule;
+                        Action<string> notify = s => Notify(r, s);
+                        engine.RegisterContext("notify", notify);
+                        engine.Run(rule.Script);
+                    }
+                    catch (ScriptException se)
+                    {
+                        _log.Error(se, "Error in rule {0}: {1}", rule.Name, se.Message);
+                    }
                 }
             }
             return true;
         }
 
-        public void Notify(string message)
+        public void Notify(Rule rule, string message)
         {
-            Console.WriteLine("Script notification: " + message);
+            _log.Info("Script({0}): {1}", rule.Name, message);
         }
 
     }

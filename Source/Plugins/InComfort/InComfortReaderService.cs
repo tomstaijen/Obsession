@@ -1,34 +1,83 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Threading;
-using Core;
-using Nest;
 using Newtonsoft.Json;
 using Obsession.Core;
+using Obsession.Core.Extensions;
 
 namespace InComfort
 {
-    public class InComfortConfiguration
+    public class InComfortReaderService : IServiceModule
     {
-        public string Host { get; set; }
+        public StateValues GetState(Configuration configuration)
+        {
+            return GetInstance(configuration).GetState();
+        }
+
+        public bool IsActual(Configuration configuration, StateValues current)
+        {
+            return true;
+        }
+
+        public IModuleInstance GetInstance(Configuration configuration)
+        {
+            return new IncomfortInstance(configuration);
+        }
+
+        public TimeSpan GetInterval(Configuration configuration)
+        {
+            return TimeSpan.FromMinutes(configuration.GetValue<short>("IntervalInMinutes", 5));
+        }
     }
 
-    public class InComfortReaderService // : IServiceModule
+    public class IncomfortInstance : IModuleInstance
     {
-        private readonly InComfortConfiguration _configuration;
+        private readonly Configuration _configuration;
 
-        public InComfortReaderService(InComfortConfiguration configuration)
+        public IncomfortInstance(Configuration configuration)
         {
             _configuration = configuration;
         }
 
-        private bool _continue = true;
+        public StateValues GetState()
+        {
+            return new StateValues(_configuration.ModuleName, _configuration.ObjectName, new InComfortService().Read(_configuration.Values.GetValueOrDefault("Hostname") as string));
+        }
 
-        public ReadableInComfortData Read()
+        public IDictionary<string, Delegate> GetActions()
+        {
+            return new Dictionary<string, Delegate>()
+                {
+                    {"setTemp", (Action<float>) SetTemperature }
+                };
+        }
+
+        public void SetTemperature(float temp)
+        {
+            new InComfortService().SetTemperature(_configuration.GetValue<string>("Hostname"), temp);
+        }
+
+    }
+
+    public class InComfortService {
+
+        public static DateTime Epoch = new DateTime(1970, 1, 1);
+
+        public void SetTemperature(string hostname, float temp)
         {
             var client = new HttpClient();
-            var response = client.GetAsync(string.Format("http://{0}/data.json?heater=0", _configuration.Host));
+
+            var setPoint = Convert.ToInt32((temp-5)*10);
+            var timestamp = Convert.ToInt64((DateTime.Now - Epoch).TotalMilliseconds);
+            var result = client.GetAsync(string.Format("http://{0}/data.json?heater=0&setpoint={1}&thermostat=0&timestamp={2}", hostname, setPoint, timestamp));
+            Console.WriteLine(result.Result.StatusCode);
+        }
+
+        public ReadableInComfortData Read(string hostname)
+        {
+            var client = new HttpClient();
+            var response = client.GetAsync(string.Format("http://{0}/data.json?heater=0", hostname));
 
             if (response.Result.StatusCode == HttpStatusCode.OK)
             {
@@ -39,43 +88,6 @@ namespace InComfort
                 return new ReadableInComfortData(raw);
             }
             return null;
-        }
-
-        public void Start()
-        {
-            while (_continue)
-            {
-                try
-                {
-                    var node = new Uri("http://localhost:9200");
-
-                    var settings = new ConnectionSettings(
-                        node,
-                        defaultIndex: "obsession"
-                        );
-
-                    var esClient = new ElasticClient(settings);
-
-                    while (_continue)
-                    {
-                        var data = Read();
-
-                        esClient.Index(data);
-
-                        // TODO do this with a stopwatch? or move the loop to some ServiceRunner?
-                        Thread.Sleep(10000);
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
-            }
-        }
-
-        public void Stop()
-        {
-            _continue = false;
         }
     }
 }

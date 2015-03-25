@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Akka.Actor;
+using Akka.Event;
 using Autofac.Features.Indexed;
 using Autofac.Features.OwnedInstances;
 using Obsession.Core.Persistence;
@@ -13,9 +14,9 @@ namespace Obsession.Core.Effectors
 {
     public class PluginController : ReceiveActor
     {
-        private readonly IIndex<string, IServiceModule> _modules;
-        
+        private static LoggingAdapter _log = Logging.GetLogger(Context);
 
+        private readonly IIndex<string, IServiceModule> _modules;
         private IServiceModule _serviceModule;
         private Configuration _configuration;
         private Func<Owned<IPersister>> _persisterFunc;
@@ -35,7 +36,6 @@ namespace Obsession.Core.Effectors
             _serviceModule = _modules[message.Configuration.ModuleName];
             _configuration = message.Configuration;
 
-
             Self.Tell(new PluginGetState());
             
             return true;
@@ -44,12 +44,19 @@ namespace Obsession.Core.Effectors
         public bool GetState(PluginGetState message)
         {
             var instance = _serviceModule.GetInstance(_configuration);
-            var state = instance.GetState();
-            if (state != null)
+            try
             {
-                using (var p = _persisterFunc())
+                var state = instance.GetState();
+                if (state != null)
                 {
-                    p.Value.Put(state);
+                    if (_configuration.Persist)
+                    {
+                        using (var p = _persisterFunc())
+                        {
+                            p.Value.Put(state);
+                        }
+                    }
+
                     Context.System.EventStream.Publish(new StateChanged
                         {
                             Configuration = _configuration,
@@ -57,6 +64,12 @@ namespace Obsession.Core.Effectors
                         });
                 }
             }
+            catch (Exception e)
+            {
+                _log.Error(e, "Error getting state from {0}@{1}", _configuration.ObjectName, _configuration.ModuleName);
+            }
+
+            Thread.Sleep(_serviceModule.GetInterval(_configuration));
 
             Self.Tell(new PluginGetState());
 

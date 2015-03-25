@@ -165,6 +165,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Obsession.Akka\Obsession.Akka.csproj">
+      <Project>{f9692e23-64bb-4709-affe-ec2a3f2c8aa7}</Project>
+      <Name>Obsession.Akka</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Obsession.Core\Obsession.Core.csproj">
       <Project>{4541846b-1a29-44fb-9029-663a2ffd623b}</Project>
       <Name>Obsession.Core</Name>

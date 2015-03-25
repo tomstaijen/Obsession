@@ -30,7 +30,14 @@ namespace Obsession.Internal.LuaEngine
 
         public object Run(string script)
         {
-            return _script.DoString(script);
+            try
+            {
+                return _script.DoString(script);
+            }
+            catch (ScriptRuntimeException sre)
+            {
+               throw new ScriptException(sre.Message, sre);
+            }
         }
 
         public dynamic Get(string fact)

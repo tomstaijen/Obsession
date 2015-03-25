@@ -1,6 +1,7 @@
 ﻿using Akka.Actor;
 using Autofac;
 using Obsession.Core;
+using Obsession.Core.Extensions;
 using P1Reader;
 
 namespace Obsession.Service.AutofacModules
@@ -11,7 +12,7 @@ namespace Obsession.Service.AutofacModules
         {
             builder.RegisterType<P1ServiceServiceModule>().Named<IServiceModule>("p1");
 
-            builder.RegisterInstance(new Configuration(){ModuleName = "p1", ObjectName = "p1", Poll = true }.WithValue("Hostname", "192.168.3.29"));
+            builder.RegisterInstance(new Configuration("p1", "p1"){ Poll = true }.WithValue("Hostname", "192.168.3.29"));
 
             builder.RegisterType<P1ReaderService>().InstancePerLifetimeScope();
         }

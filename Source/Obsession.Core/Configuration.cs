@@ -14,26 +14,24 @@ namespace Obsession.Core
     /// </summary>
     public class Configuration
     {
-        public Configuration()
+        public Configuration(string moduleName, string objectName)
         {
             Values = new Dictionary<string, object>();
+            ModuleName = moduleName;
+            ObjectName = objectName;
         }
 
         /// <summary>
         /// This is the key to the state data.
         /// </summary>
-        public string ObjectName { get; set; }
+        public string ObjectName { get; private set; }
 
-        public string ModuleName { get; set; }
+        public string ModuleName { get; private set; }
 
         public IDictionary<string,object> Values { get; private set; }
 
         public bool Poll { get; set; }
 
-        public Configuration WithValue(string key, object value)
-        {
-            Values.Add(key, value);
-            return this;
-        }
+        public bool Persist { get; set; }
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Autofac;
 using NotifyMyAndroid;
 using Obsession.Core;
+using Obsession.Core.Extensions;
 
 namespace Obsession.Service.AutofacModules
 {
@@ -15,10 +16,8 @@ namespace Obsession.Service.AutofacModules
         {
             builder.RegisterType<NmaServiceModule>().Named<IServiceModule>("nma");
             builder.RegisterInstance(
-                new Configuration
+                new Configuration("nma", "nma") 
                     {
-                        ModuleName = "nma",
-                        ObjectName = "nma",
                         Poll = false
                     }
                     .WithValue(NmaServiceModule.ApiKeyKey, "9bdad31063771a8b755088ed25ac4aa00034aad44442d0a3")

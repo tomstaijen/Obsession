@@ -9,22 +9,6 @@ namespace InComfort
 {
     public class ReadableInComfortData
     {
-        private DateTime _created;
-        
-        public ReadableInComfortData()
-        {
-            _created = DateTime.Now;
-        }
-
-        [JsonProperty("@timestamp")]
-        public string TimestampISO
-        {
-            get
-            {
-                return _created.ToUniversalTime().ToString("o");
-            }
-        }
-
         public static IDictionary<short, string> DISPLAY_CODES = new Dictionary<short, string>
             {
                 {85, "sensortest"},
@@ -43,7 +27,7 @@ namespace InComfort
                 {37, "central heating rf"}
             };
 
-        public ReadableInComfortData(RawInComfortData raw) : this()
+        public ReadableInComfortData(RawInComfortData raw)
         {
             RoomTemp1 = FromBytes(raw.RoomTemp1Msb, raw.RoomTemp1Lsb);
             RoomSetpoint1 = FromBytes(raw.RoomTempSet1Msb, raw.RoomTempSet1Lsb);
