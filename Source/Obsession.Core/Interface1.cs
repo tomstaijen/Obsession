@@ -8,13 +8,7 @@ namespace Obsession.Core
 {
     public interface IServiceModule : IStateProvider
     {
-        IModuleInstance GetInstance(Configuration configuration);
-        TimeSpan GetInterval(Configuration configuration);
-    }
-
-    public interface IModuleInstance
-    {
-        StateValues GetState();
+        TimeSpan GetInterval();
         IDictionary<string, Delegate> GetActions();
     }
 }

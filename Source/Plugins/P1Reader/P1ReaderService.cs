@@ -8,54 +8,30 @@ namespace P1Reader
 {
     public class P1ServiceServiceModule : IServiceModule
     {
+        private readonly Configuration _configuration;
         private readonly P1ReaderService _service;
 
-        public P1ServiceServiceModule(P1ReaderService service)
+        public P1ServiceServiceModule(Configuration configuration)
         {
-            _service = service;
+            _configuration = configuration;
+            _service = new P1ReaderService();
         }
 
-        public IModuleInstance GetInstance(Configuration configuration)
-        {
-            return new P1ServiceModuleInstance(configuration, _service);
-        }
 
-        public TimeSpan GetInterval(Configuration configuration)
+        public TimeSpan GetInterval()
         {
             return TimeSpan.FromSeconds(0);
         }
 
-        public StateValues GetState(Configuration configuration)
+        public IDictionary<string, Delegate> GetActions()
         {
-            return GetInstance(configuration).GetState();
-        }
-
-        /// <summary>
-        /// State is pushed periodically, so anything existing is good.
-        /// </summary>
-        /// <param name="values"></param>
-        /// <returns></returns>
-        public bool IsActual(Configuration configuration, StateValues current)
-        {
-            return true;
-        }
-    }
-
-    public class P1ServiceModuleInstance : IModuleInstance
-    {
-        private readonly Configuration _configuration;
-        private readonly P1ReaderService _service;
-
-        public P1ServiceModuleInstance(Configuration configuration, P1ReaderService service)
-        {
-            _configuration = configuration;
-            _service = service;
+            return null;
         }
 
         public StateValues GetState()
         {
             var host = _configuration.Values["Hostname"] as string;
-            if( host == null )
+            if (host == null)
                 throw new Exception("Broken config");
             var p1 = _service.Read(host);
 
@@ -65,9 +41,14 @@ namespace P1Reader
             return new StateValues(_configuration.ModuleName, _configuration.ObjectName, p1);
         }
 
-        public IDictionary<string, Delegate> GetActions()
+        /// <summary>
+        /// State is pushed periodically, so anything existing is good.
+        /// </summary>
+        /// <param name="values"></param>
+        /// <returns></returns>
+        public bool IsActual(StateValues current)
         {
-            return null;
+            return true;
         }
     }
 

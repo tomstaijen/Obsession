@@ -80,13 +80,13 @@ namespace Obsession.Core.Effectors
     public class EngineContextProvider : IEngineContextProvider
     {
         private readonly IStateManager _manager;
-        private readonly IIndex<string, IServiceModule> _modules;
+        private readonly IModuleFactory _moduleFactory;
         private readonly IStore<Configuration> _configurations;
 
-        public EngineContextProvider(IStateManager manager, IIndex<string, IServiceModule> modules, IStore<Configuration> configurations)
+        public EngineContextProvider(IStateManager manager, IModuleFactory moduleFactory, IStore<Configuration> configurations)
         {
             _manager = manager;
-            _modules = modules;
+            _moduleFactory = moduleFactory;
             _configurations = configurations;
         }
 
@@ -96,7 +96,7 @@ namespace Obsession.Core.Effectors
             foreach (var config in _configurations.GetThem())
             {
                 var moduleResult = new Dictionary<string, object>();
-                var module = _modules[config.ModuleName].GetInstance(config);
+                var module = _moduleFactory.Create(config);
                 var state = _manager.GetActualState(config);
                 if (state != null)
                 {

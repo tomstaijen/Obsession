@@ -16,24 +16,23 @@ namespace Obsession.Core.Effectors
     {
         private static LoggingAdapter _log = Logging.GetLogger(Context);
 
-        private readonly IIndex<string, IServiceModule> _modules;
         private IServiceModule _serviceModule;
         private Configuration _configuration;
+        private readonly IModuleFactory _moduleFactory;
         private Func<Owned<IPersister>> _persisterFunc;
 
-        public PluginController(IIndex<string,IServiceModule> modules, Func<Owned<IPersister>> persisterFunc)
+        public PluginController(IModuleFactory moduleFactory, Func<Owned<IPersister>> persisterFunc)
         {
             if (persisterFunc == null) throw new ArgumentNullException("persisterFunc");
-            _modules = modules;
+            _moduleFactory = moduleFactory;
             _persisterFunc = persisterFunc;
-            _modules = modules;
             Receive<PluginStart>(Start);
             Receive<PluginGetState>(GetState);
         }
 
         public bool Start(PluginStart message)
         {
-            _serviceModule = _modules[message.Configuration.ModuleName];
+            _serviceModule = _moduleFactory.Create(message.Configuration);
             _configuration = message.Configuration;
 
             Self.Tell(new PluginGetState());
@@ -43,10 +42,9 @@ namespace Obsession.Core.Effectors
 
         public bool GetState(PluginGetState message)
         {
-            var instance = _serviceModule.GetInstance(_configuration);
             try
             {
-                var state = instance.GetState();
+                var state = _serviceModule.GetState();
                 if (state != null)
                 {
                     if (_configuration.Persist)
@@ -69,7 +67,7 @@ namespace Obsession.Core.Effectors
                 _log.Error(e, "Error getting state from {0}@{1}", _configuration.ObjectName, _configuration.ModuleName);
             }
 
-            Thread.Sleep(_serviceModule.GetInterval(_configuration));
+            Thread.Sleep(_serviceModule.GetInterval());
 
             Self.Tell(new PluginGetState());
 

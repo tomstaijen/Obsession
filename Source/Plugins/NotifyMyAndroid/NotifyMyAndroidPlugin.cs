@@ -13,44 +13,31 @@ namespace NotifyMyAndroid
 {
     public class NmaServiceModule : IServiceModule
     {
+        private readonly Configuration _configuration;
+
+        public NmaServiceModule(Configuration configuration)
+        {
+            _configuration = configuration;
+        }
+
         public static string ApiKeyKey = "NmaApiKey";
         public static string ApplicationKey = "NmaApplicationKey";
         public static string Message = "NmaMessageKey";
 
 
-        public StateValues GetState(Configuration configuration)
+        public StateValues GetState()
         {
             return null;
         }
 
-        public bool IsActual(Configuration configuration, StateValues current)
+        public bool IsActual(StateValues current)
         {
             return false;
         }
 
-        public IModuleInstance GetInstance(Configuration configuration)
-        {
-            return new NmaModuleInstance(configuration);
-        }
-
-        public TimeSpan GetInterval(Configuration configuration)
+        public TimeSpan GetInterval()
         {
             return TimeSpan.FromDays(1);
-        }
-    }
-
-    public class NmaModuleInstance : IModuleInstance
-    {
-        private readonly Configuration _configuration;
-
-        public NmaModuleInstance(Configuration configuration)
-        {
-            _configuration = configuration;
-        }
-
-        public StateValues GetState()
-        {
-            return null;
         }
 
         public IDictionary<string, Delegate> GetActions()
@@ -59,11 +46,6 @@ namespace NotifyMyAndroid
                 {
                     {"nma", (Action<string>) Notify }
                 };
-        }
-
-        public bool IsActual(StateValues stateValues)
-        {
-            return true;
         }
 
         [RuleActionAttribute("notifyMyAndroid")]

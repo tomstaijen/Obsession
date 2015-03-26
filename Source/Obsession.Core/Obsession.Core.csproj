@@ -69,6 +69,7 @@
     <Compile Include="Helpers\ObjectToDictionaryHelper.cs" />
     <Compile Include="IEngine.cs" />
     <Compile Include="IExchange.cs" />
+    <Compile Include="IModuleFactory.cs" />
     <Compile Include="Interface1.cs" />
     <Compile Include="Persistence\IPersister.cs" />
     <Compile Include="RuleActionAttribute.cs" />

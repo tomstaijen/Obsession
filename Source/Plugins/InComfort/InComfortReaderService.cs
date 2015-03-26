@@ -10,32 +10,9 @@ namespace InComfort
 {
     public class InComfortReaderService : IServiceModule
     {
-        public StateValues GetState(Configuration configuration)
-        {
-            return GetInstance(configuration).GetState();
-        }
-
-        public bool IsActual(Configuration configuration, StateValues current)
-        {
-            return true;
-        }
-
-        public IModuleInstance GetInstance(Configuration configuration)
-        {
-            return new IncomfortInstance(configuration);
-        }
-
-        public TimeSpan GetInterval(Configuration configuration)
-        {
-            return TimeSpan.FromMinutes(configuration.GetValue<short>("IntervalInMinutes", 5));
-        }
-    }
-
-    public class IncomfortInstance : IModuleInstance
-    {
         private readonly Configuration _configuration;
 
-        public IncomfortInstance(Configuration configuration)
+        public InComfortReaderService(Configuration configuration)
         {
             _configuration = configuration;
         }
@@ -43,6 +20,11 @@ namespace InComfort
         public StateValues GetState()
         {
             return new StateValues(_configuration.ModuleName, _configuration.ObjectName, new InComfortService().Read(_configuration.Values.GetValueOrDefault("Hostname") as string));
+        }
+
+        public bool IsActual(StateValues current)
+        {
+            return true;
         }
 
         public IDictionary<string, Delegate> GetActions()
@@ -58,6 +40,10 @@ namespace InComfort
             new InComfortService().SetTemperature(_configuration.GetValue<string>("Hostname"), temp);
         }
 
+        public TimeSpan GetInterval()
+        {
+            return TimeSpan.FromMinutes(_configuration.GetValue<short>("IntervalInMinutes", 5));
+        }
     }
 
     public class InComfortService {

@@ -16,14 +16,11 @@ namespace Obsession.Core.Effectors
         public static PluginManagerStart Start = new PluginManagerStart();
 
         private readonly Func<Owned<IStore<Configuration>>> _configStoreFactory;
-        private readonly IIndex<string, IServiceModule> _modules;
-
         private IDictionary<string, ActorRef> _pluginActors = new Dictionary<string, ActorRef>(); 
 
-        public PluginManager(Func<Owned<IStore<Configuration>>> configStoreFactory, IIndex<string, IServiceModule> modules)
+        public PluginManager(Func<Owned<IStore<Configuration>>> configStoreFactory)
         {
             _configStoreFactory = configStoreFactory;
-            _modules = modules;
 
             Receive<PluginManagerStart>(Handle);
         }

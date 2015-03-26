@@ -19,6 +19,7 @@ namespace Obsession.Service.AutofacModules.Obsession
             builder.RegisterType<StateManager>().As<IStateManager>().SingleInstance();
             builder.RegisterType<MoonEngine>().As<IEngine>();
             builder.RegisterType<EngineContextProvider>().As<IEngineContextProvider>();
+            builder.RegisterType<ModuleFactory>().As<IModuleFactory>();
 
             // actors
             builder.RegisterType<PluginManager>();

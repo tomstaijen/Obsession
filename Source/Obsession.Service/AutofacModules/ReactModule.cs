@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using JavaScriptEngineSwitcher.Jint;
 using JavaScriptEngineSwitcher.Msie;
 using JavaScriptEngineSwitcher.Msie.Configuration;
 using Nancy;
@@ -13,7 +12,6 @@ namespace Obsession.Service.AutofacModules
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<CustomRootPathProvider>().As<IRootPathProvider>();
-
 
             builder.RegisterInstance(ReactSiteConfiguration.Configuration).As<IReactSiteConfiguration>();
             
@@ -35,13 +33,6 @@ namespace Obsession.Service.AutofacModules
                 Factory = () => new MsieJsEngine(new MsieConfiguration { EngineMode = JsEngineMode.Classic }),
                 Priority = 30
             });
-
-            builder.RegisterInstance(new JavaScriptEngineFactory.Registration
-            {
-                Factory = () => new JintJsEngine(),
-                Priority = 100
-            });
-
 
             builder.RegisterType<NancyReactFileSystem>().As<IFileSystem>().InstancePerLifetimeScope();
             builder.RegisterType<NullReactCache>().As<ICache>();

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Autofac;
+using Autofac.Integration.WebApi;
 using Nancy;
 using Nancy.Bootstrapper;
 using Nancy.Bootstrappers.Autofac;
@@ -43,6 +45,8 @@ namespace Obsession.Service
                         builder.RegisterModule<ReactModule>();
                         builder.RegisterModule<NmaModule>();
 
+                        builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+
                         _container = builder.Build();
                     }
                 }
@@ -60,51 +64,21 @@ namespace Obsession.Service
             return GetContainer();
         }
 
-//        protected override void ConfigureConventions(NancyConventions conventions)
-//        {
-//            base.ConfigureConventions(conventions);
-//
-//            conventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("content"));
-//            
-//            conventions.StaticContentsConventions.Add((ctx, s) =>
-//            {
-//                if (ctx.Request.Path.EndsWith(".jsx"))
-//                {
-//                    var react = GetApplicationContainer().Resolve<IReactEnvironment>();
-//                    return react.JsxTransformer.TransformJsxFile("~" + ctx.Request.Path);
-//                }
-//                return HttpStatusCode.NotFound;
-//            });
-//
-//        }
-
-        private static string GetSafeFileName(string path)
+        protected override void ConfigureConventions(NancyConventions conventions)
         {
-            try
+            base.ConfigureConventions(conventions);
+
+            conventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("content"));
+            
+            conventions.StaticContentsConventions.Add((ctx, s) =>
             {
-                return Path.GetFileName(path);
-            }
-            catch (Exception)
-            {
-            }
-
-            return null;
-        }
-
-
-        private static string GetPathWithoutFilename(string fileName, string path)
-        {
-            var pathWithoutFileName =
-                path.Replace(fileName, string.Empty);
-
-            if (pathWithoutFileName[0] == '/')
-            {
-                pathWithoutFileName = pathWithoutFileName.Substring(1);
-            }
-
-            return (pathWithoutFileName.Equals("/")) ?
-                pathWithoutFileName :
-                pathWithoutFileName.TrimEnd(new[] { '/' });
+                if (ctx.Request.Path.EndsWith(".jsx"))
+                {
+                    var react = GetApplicationContainer().Resolve<IReactEnvironment>();
+                    return react.JsxTransformer.TransformJsxFile("~" + ctx.Request.Path);
+                }
+                return null;
+            });
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Autofac.Features.Indexed;
 using Obsession.Core.Extensions;
@@ -8,8 +9,8 @@ namespace Obsession.Core
 {
     public interface IStateProvider
     {
-        StateValues GetState(Configuration configuration);
-        bool IsActual(Configuration configuration, StateValues current);
+        StateValues GetState();
+        bool IsActual(StateValues current);
     }
 
     public interface IStateManager
@@ -25,13 +26,13 @@ namespace Obsession.Core
     public class StateManager : IStateManager
     {
         private readonly IStore<Configuration> _configStore;
-        private readonly IIndex<string, IServiceModule> _retrievers;
+        private readonly IModuleFactory _moduleFactory;
         private readonly IDictionary<string, StateValues> _currentValues = new Dictionary<string, StateValues>();
 
-        public StateManager(IStore<Configuration> configStore, IIndex<string, IServiceModule> retrievers)
+        public StateManager(IStore<Configuration> configStore, IModuleFactory moduleFactory)
         {
             _configStore = configStore;
-            _retrievers = retrievers;
+            _moduleFactory = moduleFactory;
         }
 
         public void SetState(Configuration configuration, StateValues values)
@@ -42,9 +43,10 @@ namespace Obsession.Core
         public StateValues GetActualState(Configuration config)
         {
             var current = _currentValues.GetValueOrDefault(config.ObjectName);
-            if ((current == null || !_retrievers[config.ModuleName].IsActual(config, current)) && config.Poll)
+            var module = _moduleFactory.Create(config);
+            if ((current == null || !module.IsActual(current)) && config.Poll)
             {
-                current = _retrievers[config.ModuleName].GetState(config);
+                current = module.GetState();
                 if (current != null)
                     SetState(config, current);
             }
