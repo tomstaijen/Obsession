@@ -29,13 +29,13 @@ namespace Test
             Console.WriteLine("Started");
 //            Thread.Sleep(10000);
 //            sut.Write("PWSTANDBY");
-//            sut.Write("SI?");
+            sut.Write("SI?");
 //            sut.Write("SV?");
 //            sut.Write("NSA0Now Playing USB_????");
 //            Thread.Sleep(2000);
 //            sut.Write("PWON");
 //            Thread.Sleep(2000);
-//            sut.Write("PW?");
+            sut.Write("PW?");
 //            Thread.Sleep(2000);
 //            sut.Write("MV700");
 //            Thread.Sleep(2000);
@@ -44,7 +44,7 @@ namespace Test
 //            sut.Write("SI?");
 //            Thread.Sleep(2000);
 //            sut.Write("HD?");
-            sut.Write("HD?");
+//            sut.Write("HD?");
 //            sut.Write("NSE");
 //            sut.Write("NSE0Now Playing USB_????");
             Thread.Sleep(30000);

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Autofac;
 using Nancy;
 using Obsession.Core;
@@ -7,8 +8,11 @@ namespace Obsession.Service.Modules
 {
     public class HomeModule : NancyModule
     {
-        public HomeModule(IStateManager manager)
+
+        public HomeModule(IStateManager manager, IRootPathProvider rootPathProvider)
         {
+            Console.WriteLine(rootPathProvider.GetType().Name);
+
             Get["/values"] = x =>
                 {
                     string view = "";

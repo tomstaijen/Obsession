@@ -14,7 +14,7 @@ namespace Test
         [Test]
         public void Test()
         {
-            var sut = new Communicator();
+            var sut = new Communicator("192.168.3.107", "kodi", "kodi");
             var result = sut.GetActivePlayers();
 
             foreach (dynamic player in result)

@@ -37,7 +37,7 @@ namespace Xbmc
             Params = new Dictionary<string, object>();
         }
 
-        public JsonRpcRequest(string method) : base()
+        public JsonRpcRequest(string method) : this()
         {
             Method = method;
         }
@@ -57,6 +57,24 @@ namespace Xbmc
 
     public class Communicator
     {
+        private readonly string _hostname;
+        private readonly string _user;
+        private readonly string _pass;
+
+        public static string MediaTypeJson = "application/json";
+
+        public Communicator(string hostname, string user, string pass)
+        {
+            _hostname = hostname;
+            _user = user;
+            _pass = pass;
+        }
+
+        protected string JsonRpcUrl
+        {
+            get { return string.Format("http://{0}:8080/jsonrpc", _hostname); }
+        }
+
         public dynamic DoIt(JsonRpcRequest request)
         {
             //var message = new StringContent("{\"jsonrpc\": \"2.0\", \"method\": \"Player.GetActivePlayers\", \"id\": 1}",Encoding.UTF8, "application/json");
@@ -66,11 +84,11 @@ namespace Xbmc
 
             var client = new HttpClient();
             // auth
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes("xbmc:xbmc")));
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes(string.Format("{0}:{1}", _user, _pass))));
             // content-type
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeJson));
             // do it!
-            var result = client.PostAsync("http://192.168.3.108:8080/jsonrpc", new StringContent(message, Encoding.UTF8, "application/json")).Result;
+            var result = client.PostAsync(JsonRpcUrl, new StringContent(message, Encoding.UTF8, MediaTypeJson)).Result;
 
             if( result.StatusCode != HttpStatusCode.OK )
                 throw new Exception(result.StatusCode.ToString());

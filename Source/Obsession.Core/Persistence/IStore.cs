@@ -41,13 +41,12 @@ namespace Obsession.Core.Persistence
                             Name = "Hello",
                             Script =
 @"
-notify(heating.RoomTemp1)
-
 if 
-    heating.RoomTemp1 > 19
+    heating.RoomTemp1 < 20
 then 
-    heating.setTemp(15)
-    notify('set temp to 15')
+    notify(heating.RoomTemp1)
+    heating.setTemp(20.5)
+    notify('set temp to 20.5')
 end
 "
                         }

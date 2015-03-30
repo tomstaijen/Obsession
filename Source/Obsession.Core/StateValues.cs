@@ -10,6 +10,11 @@ namespace Obsession.Core
 {
     public class StateValues : IValues
     {
+        public StateValues()
+        {
+            
+        }
+
         // auto convert object's properties to dictionary values
         public StateValues(string module, string instance, object o) : this(module, instance)
         {
@@ -43,9 +48,10 @@ namespace Obsession.Core
 
 
 
-        public void AddValue(string key, object value)
+        public StateValues AddValue(string key, object value)
         {
             _dictionary[key] = value;
+            return this;
         }
 
 

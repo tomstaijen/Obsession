@@ -6,19 +6,41 @@ using System.Threading.Tasks;
 using InTheHand.Net.Bluetooth;
 using InTheHand.Net.Bluetooth.Factory;
 using InTheHand.Net.Sockets;
+using Obsession.Core;
 
 namespace Bluetooth
 {
-    public class BluetoothService
+    public class BluetoothService : IServiceModule
     {
-        public void Test()
+        private readonly Configuration _configuration;
+
+        public BluetoothService(Configuration configuration)
+        {
+            _configuration = configuration;
+        }
+
+        public StateValues GetState()
         {
             var client = new BluetoothClient();
             var devices = client.DiscoverDevices();
-            foreach (var d in devices)
-            {
-                Console.WriteLine("Hi " + d.DeviceName);
-            }
+
+            return new StateValues(_configuration.ModuleName, _configuration.ObjectName)
+                .AddValue("devices", devices.ToDictionary(d => d.DeviceAddress, d => d.DeviceName));
+        }
+
+        public bool IsActual(StateValues current)
+        {
+            return true;
+        }
+
+        public TimeSpan GetInterval()
+        {
+            return TimeSpan.FromMinutes(1);
+        }
+
+        public IDictionary<string, Delegate> GetActions()
+        {
+            return null;
         }
     }
 }

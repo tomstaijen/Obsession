@@ -19,6 +19,7 @@ namespace Obsession.Core
             Values = new Dictionary<string, object>();
             ModuleName = moduleName;
             ObjectName = objectName;
+            Persist = true;
         }
 
         /// <summary>
@@ -30,8 +31,14 @@ namespace Obsession.Core
 
         public IDictionary<string,object> Values { get; private set; }
 
+        /// <summary>
+        /// Should the state be polled? Default = false
+        /// </summary>
         public bool Poll { get; set; }
 
+        /// <summary>
+        /// Should the state be persisted? Default = true
+        /// </summary>
         public bool Persist { get; set; }
     }
 }

@@ -15,6 +15,9 @@ namespace Obsession.Service
                   context.Response.StatusCode == HttpStatusCode.NotFound);
 
             var config = new HttpConfiguration();
+            
+            config.MapHttpAttributeRoutes();
+            
             var route = config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{action}/{id}",

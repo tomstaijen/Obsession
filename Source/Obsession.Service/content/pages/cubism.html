@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="http://square.github.io/cubism/d3.v2.js"></script>
+    <script src="http://square.github.io/cubism/cubism.v1.js"></script>
+    <link rel="stylesheet" href="http://square.github.io/cubism/demo/style.css"/>
+</head>
+<body>
+    
+    <script>
+
+        var context = cubism.context()
+            .step(60000)
+            .size(1440);
+
+        d3.select("body").selectAll(".axis")
+            .data(["top", "bottom"])
+            .enter().append("div")
+            .attr("class", function(d) { return d + " axis"; })
+            .each(function(d) { d3.select(this).call(context.axis().ticks(12).orient(d)); });
+
+        d3.select("body").append("div")
+            .attr("class", "rule")
+            .call(context.rule());
+
+        d3.select("body").selectAll(".horizon")
+            .data(["heating.RoomTemp1"].map(random))
+            .enter().insert("div", ".bottom")
+            .attr("class", "horizon")
+            .call(context.horizon().height(120).extent([10, 30]));
+
+        context.on("focus", function(i) {
+            d3.selectAll(".value").style("right", i == null ? null : context.size() - i + "px");
+        });
+
+        // Replace this with context.graphite and graphite.metric!
+        function random(x) {
+            console.log(x);
+            var value = 0,
+                values = [],
+                i = 0,
+                last;
+            return context.metric(function (start, stop, step, callback) {
+                d3.json("../../../api/metrics/get/" + x + "/" + start.toISOString() + "/" + stop.toISOString() + "/" + step,
+                    function (data) {
+                        console.log(data);
+                        if (!data) return callback(new Error("unable to load data"));
+
+                        callback(null, data.map(function (d) {
+                            return d.Value;
+                        }));
+                  });
+            }, x);
+        }
+    </script>
+</body>
+</html>

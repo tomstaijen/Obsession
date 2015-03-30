@@ -57,7 +57,6 @@ namespace InComfort
             var setPoint = Convert.ToInt32((temp-5)*10);
             var timestamp = Convert.ToInt64((DateTime.Now - Epoch).TotalMilliseconds);
             var result = client.GetAsync(string.Format("http://{0}/data.json?heater=0&setpoint={1}&thermostat=0&timestamp={2}", hostname, setPoint, timestamp));
-            Console.WriteLine(result.Result.StatusCode);
         }
 
         public ReadableInComfortData Read(string hostname)

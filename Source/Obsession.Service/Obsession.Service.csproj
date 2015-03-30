@@ -141,6 +141,7 @@
     <Compile Include="AutofacModules\Obsession\ObsessionModule.cs" />
     <Compile Include="AutofacModules\ReactModule.cs" />
     <Compile Include="AutofacModules\YahooWeatherModule.cs" />
+    <Compile Include="Controllers\MetricsController.cs" />
     <Compile Include="Controllers\RuleController.cs" />
     <Compile Include="Modules\HomeModule.cs" />
     <Compile Include="AutofacModules\ElasticModule.cs" />
@@ -156,6 +157,8 @@
     <Compile Include="WebAppStartUp.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="content\pages\graphs.html" />
+    <Content Include="content\scripts\graphs\elastic.cubusm.js" />
     <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="ClearScript.V8\ClearScriptV8-32.dll">
