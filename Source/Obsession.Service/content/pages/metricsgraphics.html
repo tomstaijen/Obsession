@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.js"></script>
+    <script language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/metrics-graphics/2.3.0/metricsgraphics.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/metrics-graphics/2.3.0/metricsgraphics.min.css"/>
+</head>
+    <body>
+        
+        <div id="RoomTemp">
+            <h2 class="mg-chart-title" data-original-title="" title=""></h2>
+        </div>
+
+       <div id="SetTemp">
+            <h2 class="mg-chart-title" data-original-title="" title=""></h2>
+        </div>
+
+        <script>
+            d3.json('../../../api/metrics/day/heater.RoomTemp1/false', function (data) {
+                console.log(data);
+                //data = MG.convert.date(data, 'ticks');
+                MG.data_graphic({
+                    //title: "Line Chart",
+                    //description: "This is a simple line chart. You can remove the area portion by adding area: false to the arguments list.",
+                    data: data,
+                    width: 600,
+                    height: 200,
+                    right: 40,
+                    target: document.getElementById('RoomTemp'),
+                    x_accessor: 'ticks',
+                    y_accessor: 'value'
+                });
+            });
+            
+            d3.json('../../../api/metrics/day/heater.RoomSetpoint1/false', function (data) {
+                console.log(data);
+                //data = MG.convert.date(data, 'ticks');
+                MG.data_graphic({
+                    //title: "Line Chart",
+                    //description: "This is a simple line chart. You can remove the area portion by adding area: false to the arguments list.",
+                    data: data,
+                    width: 600,
+                    height: 200,
+                    right: 40,
+                    target: document.getElementById('SetTemp'),
+                    x_accessor: 'ticks',
+                    y_accessor: 'value'
+                });
+            });
+        </script>
+    </body>
+</html>

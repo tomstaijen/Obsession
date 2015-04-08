@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http.Formatting;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http.Controllers;
 using Autofac;
 using Autofac.Integration.WebApi;
 using Nancy;
@@ -13,6 +15,7 @@ using Nancy.Bootstrappers.Autofac;
 using Nancy.Conventions;
 using Nancy.Diagnostics;
 using Nancy.Helpers;
+using Newtonsoft.Json.Serialization;
 using Obsession.Service.AutofacModules;
 using Obsession.Service.AutofacModules.Obsession;
 using Obsession.Service.ReactStuff;
@@ -20,6 +23,23 @@ using React;
 
 namespace Obsession.Service
 {
+    public class ForceCamelCaseAttribute : Attribute, IControllerConfiguration
+    {
+        public void Initialize(HttpControllerSettings currentConfiguration, HttpControllerDescriptor currentDescriptor)
+        {
+            var currentFormatter = currentConfiguration.Formatters.OfType<JsonMediaTypeFormatter>().Single();
+            //remove the current formatter
+            currentConfiguration.Formatters.Remove(currentFormatter);
+
+            var camelFormatter = new JsonMediaTypeFormatter
+            {
+                SerializerSettings = { ContractResolver = new CamelCasePropertyNamesContractResolver() }
+            };
+            //add the camel case formatter
+            currentConfiguration.Formatters.Add(camelFormatter);
+        }
+    }
+
     public class Bootstrapper : AutofacNancyBootstrapper
     {
         private static object _containerLock = new object();

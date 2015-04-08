@@ -9,6 +9,7 @@ using Obsession.Core;
 
 namespace Obsession.Service.Controllers
 {
+    [ForceCamelCase]
     public class MetricsController : ApiController
     {
         private readonly IElasticClient _client;
@@ -19,8 +20,32 @@ namespace Obsession.Service.Controllers
         }
 
         [HttpGet]
-        [Route("api/metrics/get/{metric}/{start}/{stop}/{step}")]
-        public IEnumerable<HistoValue> Get(string metric, DateTime start, DateTime stop, long step)
+        [Route("api/metrics/hour/{metric}/{fill}")]
+        public IEnumerable<HistoValue> Hour(string metric, bool fill)
+        {
+            var now = DateTime.Now;
+            var prev = now.AddHours(-1);
+
+            return Query(metric, prev, now, "1m", fill ? new TimeSpan(0, 1, 0) : (TimeSpan?)null);
+        }
+
+        [HttpGet]
+        [Route("api/metrics/day/{metric}/{fill}")]
+        public IEnumerable<HistoValue> Day(string metric, bool fill)
+        {
+            var now = DateTime.Now;
+            var prev = now.AddDays(-1);
+
+            return Query(metric, prev, now, "15m", fill ? new TimeSpan(0, 15, 0) : (TimeSpan?)null);
+        }
+
+        public static DateTime Epoch = new DateTime(1970, 1,1);
+        public static double ToTicks(DateTime dt)
+        {
+            return (dt - Epoch).TotalSeconds;
+        }
+
+        public IEnumerable<HistoValue> Query(string metric, DateTime start, DateTime stop, string step, TimeSpan? fillInterval = null)
         {
             var subAggKey = "avg";
 
@@ -28,12 +53,12 @@ namespace Obsession.Service.Controllers
             var m = metric.Split('.')[1];
             var result = _client
                 .Search<StateValues>(
-                    d =>
+                    d => //d.Query(qc => qc.Range(sel => sel.OnField("@timestamp").GreaterOrEquals(start.ToUniversalTime()).LowerOrEquals(stop.ToUniversalTime())))
                     d.Aggregations(a =>
                                    a.DateHistogram("histo", h =>
                                                             h.Field(
                                                                 "@timestamp")
-                                                             .Interval("1m")
+                                                             .Interval(step)
                                                              .Aggregations(
                                                                  sa1 =>
                                                                  sa1.Average(
@@ -49,28 +74,34 @@ namespace Obsession.Service.Controllers
             foreach (var i in result.Aggs.Histogram("histo").Items)
             {
                 var subAggValue = i.Aggregations.Single(a => a.Key == subAggKey).Value;
-                if( subAggValue != null && (subAggValue as ValueMetric).Value.HasValue)
-                        r.Add(i.Date, new HistoValue()
-                            {
-                                DateTime = i.Date,
-                                Value = (i.Aggregations.Single(a => a.Key == subAggKey).Value as ValueMetric).Value.Value
-                            });
+                if (subAggValue != null && (subAggValue as ValueMetric).Value.HasValue && i.Date >= start.ToUniversalTime())
+                    r.Add(i.Date, new HistoValue()
+                    {
+                        Ticks = ToTicks(i.Date.ToLocalTime()),
+                        Value = (i.Aggregations.Single(a => a.Key == subAggKey).Value as ValueMetric).Value.Value
+                    });
             }
 
-            var time = start;
-            do
+            if (fillInterval.HasValue)
             {
-                if (!r.ContainsKey(time))
-                    r.Add(time, new HistoValue {DateTime = time, Value = 0});
-                time = time.AddHours(1);
-            } while (time <= stop);
+                var time = start;
+                do
+                {
+                    if (!r.ContainsKey(time))
+                        r.Add(time, new HistoValue { Ticks = ToTicks(time), Value = 0 });
+                    
+                    time = time.Add(fillInterval.Value);
 
-            return r.Values.OrderBy(v => v.DateTime);
+                } 
+                while (time <= stop);
+            }
+
+            return r.Values.OrderBy(d => d.Ticks).ToList();
         }
 
         public class HistoValue
         {
-            public DateTime DateTime { get; set; }
+            public double Ticks { get; set; }
             public double Value { get; set; }
         }
     }
