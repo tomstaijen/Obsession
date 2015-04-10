@@ -144,6 +144,67 @@ namespace Xbmc
             return DoIt(new JsonRpcRequest("Player.PlayPause")
                             .WithParameter("playerid", playerId));
         }
+
+        public INavigate Navigate()
+        {
+            return new Navigator(this);
+        }
+    }
+
+    public class Navigator : CommunicatorModule, INavigate
+    {
+        public Navigator(Communicator communicator) : base(communicator)
+        {
+        }
+
+        public void Left()
+        {
+            Fire(new JsonRpcRequest("Input.Left"));
+        }
+
+        public void Right()
+        {
+            Fire(new JsonRpcRequest("Input.Right"));
+        }
+
+        public void Home()
+        {
+            Fire(new JsonRpcRequest("Input.Home"));
+        }
+
+        public void Info()
+        {
+            Fire(new JsonRpcRequest("Input.Info"));
+        }
+
+        public void Select()
+        {
+            Fire(new JsonRpcRequest("Input.Select"));
+        }
+    }
+
+    public abstract class CommunicatorModule
+    {
+        private readonly Communicator _communicator;
+
+        protected CommunicatorModule(Communicator communicator)
+        {
+            _communicator = communicator;
+        }
+
+        protected void Fire(JsonRpcRequest request)
+        {
+            _communicator.DoIt(request);
+        }
+    }
+
+    public interface INavigate
+    {
+        void Left();
+        void Right();
+        void Home();
+        void Info();
+        void Select();
     }
 
     public static class ExtensionsToJsonRpcRequest

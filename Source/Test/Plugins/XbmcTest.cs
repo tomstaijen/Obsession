@@ -17,6 +17,8 @@ namespace Test
             var sut = new Communicator("192.168.3.107", "kodi", "kodi");
             var result = sut.GetActivePlayers();
 
+            sut.Navigate().Left();
+
             foreach (dynamic player in result)
             {
                 var items = sut.GetItemVideo(player.playerid.Value);

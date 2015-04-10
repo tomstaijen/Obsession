@@ -4,52 +4,92 @@
 <head>
     <meta charset="utf-8" />
     <title></title>
+    <script language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.js"></script>
     <script language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/metrics-graphics/2.3.0/metricsgraphics.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/metrics-graphics/2.3.0/metricsgraphics.min.css"/>
 </head>
     <body>
         
-        <div id="RoomTemp">
-            <h2 class="mg-chart-title" data-original-title="" title=""></h2>
+        <div id="Power">
         </div>
 
-       <div id="SetTemp">
-            <h2 class="mg-chart-title" data-original-title="" title=""></h2>
-        </div>
+<!--        <div id="RoomTemp">-->
+<!--            <h2 class="mg-chart-title" data-original-title="" title=""></h2>-->
+<!--        </div>-->
+<!---->
+<!--       <div id="SetTemp">-->
+<!--            <h2 class="mg-chart-title" data-original-title="" title=""></h2>-->
+<!--        </div>-->
 
         <script>
-            d3.json('../../../api/metrics/day/heater.RoomTemp1/false', function (data) {
-                console.log(data);
-                //data = MG.convert.date(data, 'ticks');
-                MG.data_graphic({
-                    //title: "Line Chart",
-                    //description: "This is a simple line chart. You can remove the area portion by adding area: false to the arguments list.",
-                    data: data,
-                    width: 600,
-                    height: 200,
-                    right: 40,
-                    target: document.getElementById('RoomTemp'),
-                    x_accessor: 'ticks',
-                    y_accessor: 'value'
+
+            var update = function() {
+
+                d3.json('../../../api/metrics/day/p1.PowerDelivery/false', function(x) {
+                    for (i = 0; i < x.length; i++) {
+                        x[i].datetime = new Date(x[i].timestamp);
+                    }
+
+                    var title = Math.round(x[x.length - 1].value * 1000) / 1000 + ' kW';
+
+                    console.log(x);
+                    MG.data_graphic({
+                        title: title,
+                        description: "This is a simple line chart. You can remove the area portion by adding area: false to the arguments list.",
+                        data: x,
+                        width: 600,
+                        height: 200,
+                        right: 40,
+                        interpolate: 'monotone',
+                        //missing_is_zero: true,
+                        target: document.getElementById('Power'),
+                        x_accessor: 'datetime',
+                        y_accessor: 'value',
+                        y_label: 'kW'
+                    });
                 });
-            });
-            
-            d3.json('../../../api/metrics/day/heater.RoomSetpoint1/false', function (data) {
-                console.log(data);
-                //data = MG.convert.date(data, 'ticks');
-                MG.data_graphic({
-                    //title: "Line Chart",
-                    //description: "This is a simple line chart. You can remove the area portion by adding area: false to the arguments list.",
-                    data: data,
-                    width: 600,
-                    height: 200,
-                    right: 40,
-                    target: document.getElementById('SetTemp'),
-                    x_accessor: 'ticks',
-                    y_accessor: 'value'
-                });
-            });
+            };
+
+            update();
+            setInterval(update, 5000);
+
+        //            d3.json('../../../api/metrics/day/heater.RoomTemp1/false', function (x) {
+                //                for (i = 0; i < x.length; i++) {
+                //                    x[i].datetime = new Date(x[i].timestamp);
+                //                }
+                //                
+                //                MG.data_graphic({
+                //                    //title: "Line Chart",
+                //                    //description: "This is a simple line chart. You can remove the area portion by adding area: false to the arguments list.",
+                //                    data: x,
+                //                    width: 600,
+                //                    height: 200,
+                //                    right: 40,
+                //                    interpolate: 'monotone',
+                //                    //missing_is_hidden: true,
+                //                    target: document.getElementById('RoomTemp'),
+                //                    x_accessor: 'datetime',
+                //                    y_accessor: 'value'
+                //                });
+                //            });
+                //            d3.json('../../../api/metrics/day/heater.RoomSetpoint1/false', function (data) {
+                //                for (i = 0; i < data.length; i++) {
+                //                    data[i].datetime = new Date(data[i].timestamp);
+                //                }
+                //                MG.data_graphic({
+                //                    //title: "Line Chart",
+                //                    //description: "This is a simple line chart. You can remove the area portion by adding area: false to the arguments list.",
+                //                    data: data,
+                //                    width: 600,
+                //                    height: 200,
+                //                    right: 40,
+                //                    interpolate: 'monotone',
+                //                    target: document.getElementById('SetTemp'),
+                //                    x_accessor: 'datetime',
+                //                    y_accessor: 'value'
+                //                });
+                //            });
         </script>
     </body>
 </html>

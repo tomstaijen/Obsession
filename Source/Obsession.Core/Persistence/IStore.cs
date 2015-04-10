@@ -34,22 +34,22 @@ namespace Obsession.Core.Persistence
     {
         public IEnumerable<Rule> GetThem()
         {
-            return new[]
+            return new Rule[]
                 {
-                    new Rule()
-                        {
-                            Name = "Hello",
-                            Script =
-@"
-if 
-    heating.RoomTemp1 < 20
-then 
-    notify(heating.RoomTemp1)
-    heating.setTemp(20.5)
-    notify('set temp to 20.5')
-end
-"
-                        }
+//                    new Rule()
+//                        {
+//                            Name = "Hello",
+//                            Script =
+//@"
+//if 
+//    heating.RoomTemp1 < 20
+//then 
+//    notify(heating.RoomTemp1)
+//    heating.setTemp(20.5)
+//    notify('set temp to 20.5')
+//end
+//"
+//                        }
                 };
         }
     }

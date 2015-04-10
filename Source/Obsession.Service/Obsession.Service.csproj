@@ -163,9 +163,6 @@
     <Content Include="content\pages\rickshaw.html" />
     <Content Include="content\scripts\graphs\elastic.cubusm.js" />
     <Content Include="content\scripts\graphs\rickshaw.js" />
-    <Content Include="content\scripts\npm\chart.js\Chart.js" />
-    <Content Include="content\scripts\npm\rickshaw\rickshaw.min.css" />
-    <Content Include="content\scripts\npm\rickshaw\rickshaw.min.js" />
     <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="ClearScript.V8\ClearScriptV8-32.dll">

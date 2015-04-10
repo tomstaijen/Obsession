@@ -26,7 +26,7 @@ namespace Obsession.Service.Controllers
             var now = DateTime.Now;
             var prev = now.AddHours(-1);
 
-            return Query(metric, prev, now, "1m", fill ? new TimeSpan(0, 1, 0) : (TimeSpan?)null);
+            return Query(metric, prev, now, "30s", fill ? new TimeSpan(0, 0, 30) : (TimeSpan?)null);
         }
 
         [HttpGet]
@@ -36,14 +36,10 @@ namespace Obsession.Service.Controllers
             var now = DateTime.Now;
             var prev = now.AddDays(-1);
 
-            return Query(metric, prev, now, "15m", fill ? new TimeSpan(0, 15, 0) : (TimeSpan?)null);
+            return Query(metric, prev, now, "1m", fill ? new TimeSpan(0, 10, 0) : (TimeSpan?)null);
         }
 
-        public static DateTime Epoch = new DateTime(1970, 1,1);
-        public static double ToTicks(DateTime dt)
-        {
-            return (dt - Epoch).TotalSeconds;
-        }
+        
 
         public IEnumerable<HistoValue> Query(string metric, DateTime start, DateTime stop, string step, TimeSpan? fillInterval = null)
         {
@@ -75,11 +71,7 @@ namespace Obsession.Service.Controllers
             {
                 var subAggValue = i.Aggregations.Single(a => a.Key == subAggKey).Value;
                 if (subAggValue != null && (subAggValue as ValueMetric).Value.HasValue && i.Date >= start.ToUniversalTime())
-                    r.Add(i.Date, new HistoValue()
-                    {
-                        Ticks = ToTicks(i.Date.ToLocalTime()),
-                        Value = (i.Aggregations.Single(a => a.Key == subAggKey).Value as ValueMetric).Value.Value
-                    });
+                    r.Add(i.Date, new HistoValue(i.Date.ToLocalTime(), (i.Aggregations.Single(a => a.Key == subAggKey).Value as ValueMetric).Value.Value));
             }
 
             if (fillInterval.HasValue)
@@ -88,7 +80,7 @@ namespace Obsession.Service.Controllers
                 do
                 {
                     if (!r.ContainsKey(time))
-                        r.Add(time, new HistoValue { Ticks = ToTicks(time), Value = 0 });
+                        r.Add(time, new HistoValue(time, 0));
                     
                     time = time.Add(fillInterval.Value);
 
@@ -96,12 +88,25 @@ namespace Obsession.Service.Controllers
                 while (time <= stop);
             }
 
-            return r.Values.OrderBy(d => d.Ticks).ToList();
+            return r.Values.OrderBy(d => d.Timestamp).ToList();
         }
 
         public class HistoValue
         {
-            public double Ticks { get; set; }
+            public HistoValue(DateTime timestamp, double value)
+            {
+                Timestamp = timestamp;
+                Value = value;
+            }
+
+            public static DateTime Epoch = new DateTime(1970, 1, 1);
+            public static double ToTicks(DateTime dt)
+            {
+                return (dt - Epoch).TotalSeconds;
+            }
+
+            public DateTime Timestamp { get; set; }
+            //public double Ticks { get { return ToTicks(Timestamp); } }
             public double Value { get; set; }
         }
     }
