@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Akka.Actor;
 using Nest;
+using Obsession.Akka;
 using Obsession.Core;
 
 namespace Obsession.Service.Controllers
@@ -13,10 +15,12 @@ namespace Obsession.Service.Controllers
     public class MetricsController : ApiController
     {
         private readonly IElasticClient _client;
+        private readonly ActorSystem _actorSystem;
 
-        public MetricsController(IElasticClient client)
+        public MetricsController(IElasticClient client, ActorSystem actorSystem)
         {
             _client = client;
+            _actorSystem = actorSystem;
         }
 
         [HttpGet]
@@ -33,6 +37,13 @@ namespace Obsession.Service.Controllers
         [Route("api/metrics/day/{metric}/{fill}")]
         public IEnumerable<HistoValue> Day(string metric, bool fill)
         {
+            var actor = _actorSystem.ActorOf<MetricsSupplier>();
+            var result = actor.Ask<Metrics>(new FetchMetrics());
+
+
+            var x = result.Result.Values.Select(kvp => new HistoValue(kvp.Key, kvp.Value));
+            return x;
+
             var now = DateTime.Now;
             var prev = now.AddDays(-1);
 

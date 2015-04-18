@@ -8,4 +8,4 @@ certmgr -ssl -m https://nuget.org
 
 mono .nuget/NuGet.exe restore Obsession.sln
 
-xbuild Obsession.sln
+xbuild /nologo /verbosity:quiet Obsession.sln

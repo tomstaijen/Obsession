@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EventProcessor.cs" />
+    <Compile Include="MetricsSupplier.cs" />
     <Compile Include="PluginController.cs" />
     <Compile Include="PluginManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

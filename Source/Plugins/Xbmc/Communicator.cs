@@ -122,7 +122,6 @@ namespace Xbmc
                                        "title", "album", "artist", "season", "episode", "duration", "showtitle", "tvshowid"
                                        , "thumbnail", "file", "fanart", "streamdetails"
                                    });
-
             return DoIt(request);
         }
 
