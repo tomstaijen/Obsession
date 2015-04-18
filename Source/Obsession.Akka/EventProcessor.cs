@@ -14,7 +14,7 @@ namespace Obsession.Core.Effectors
 {
     public class EventProcessor : ReceiveActor
     {
-        private static LoggingAdapter _log = Logging.GetLogger(Context);
+        private static ILoggingAdapter _log = Logging.GetLogger(Context);
 
         private readonly IStateManager _stateManager;
         private readonly Func<Owned<IEngine>> _engineFactory;
@@ -28,7 +28,7 @@ namespace Obsession.Core.Effectors
             _engineContextProvider = engineContextProvider;
             _stateManager = stateManager;
 
-            Receive<StateChanged>(HandleStateChange);
+            Receive<StateChanged>(s => HandleStateChange(s));
         }
 
         /// <summary>

@@ -39,8 +39,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Zeroconf">
-      <HintPath>..\packages\Zeroconf.2.3\lib\net45\Zeroconf.dll</HintPath>
+    <Reference Include="Zeroconf, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Zeroconf.2.3.3\lib\net45\Zeroconf.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

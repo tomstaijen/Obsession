@@ -10,7 +10,7 @@ namespace Obsession.Core.Extensions
 {
     public static class ExtensionsToActorContext
     {
-        public static ActorRef Resolve<T>(this IUntypedActorContext context) where T : ActorBase
+        public static IActorRef Resolve<T>(this IUntypedActorContext context) where T : ActorBase
         {
             var resolver = context.Props.Arguments.OfType<IDependencyResolver>().SingleOrDefault();
             if( resolver == null )

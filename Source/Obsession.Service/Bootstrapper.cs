@@ -84,6 +84,16 @@ namespace Obsession.Service
             return GetContainer();
         }
 
+        protected override ILifetimeScope CreateRequestContainer()
+        {
+            return GetContainer().BeginLifetimeScope();
+        }
+
+        protected override ILifetimeScope CreateRequestContainer(NancyContext context)
+        {
+            return GetContainer().BeginLifetimeScope();
+        }
+
         protected override void ConfigureConventions(NancyConventions conventions)
         {
             base.ConfigureConventions(conventions);

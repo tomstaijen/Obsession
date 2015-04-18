@@ -23,7 +23,7 @@ namespace Test
             builder.RegisterType<MyActor>();
             builder.RegisterType<MyService>().As<IService>();
 
-            builder.RegisterType<Func<Props, ActorRef>>();
+            builder.RegisterType<Func<Props, IActorRef>>();
 
             var container = builder.Build();
 
@@ -63,7 +63,7 @@ namespace Test
 
     public interface IActorFactory<T> where T : ActorBase
     {
-        ActorRef Create();
+        IActorRef Create();
     }
 
     public interface IService

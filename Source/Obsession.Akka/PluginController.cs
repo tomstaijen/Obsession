@@ -14,7 +14,7 @@ namespace Obsession.Core.Effectors
 {
     public class PluginController : ReceiveActor
     {
-        private static LoggingAdapter _log = Logging.GetLogger(Context);
+        private static ILoggingAdapter _log = Logging.GetLogger(Context);
 
         private IServiceModule _serviceModule;
         private Configuration _configuration;
@@ -26,8 +26,8 @@ namespace Obsession.Core.Effectors
             if (persisterFunc == null) throw new ArgumentNullException("persisterFunc");
             _moduleFactory = moduleFactory;
             _persisterFunc = persisterFunc;
-            Receive<PluginStart>(Start);
-            Receive<PluginGetState>(GetState);
+            Receive<PluginStart>(s => Start(s));
+            Receive<PluginGetState>(s => GetState(s));
         }
 
         public bool Start(PluginStart message)
