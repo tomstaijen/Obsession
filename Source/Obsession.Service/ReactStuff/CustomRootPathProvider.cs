@@ -12,7 +12,7 @@ namespace Obsession.Service.ReactStuff
     {
         public string GetRootPath()
         {
-            var s = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, @"..\.."));
+            var s = Path.GetFullPath(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName);
             return s;
         }
     }
