@@ -28,6 +28,11 @@ namespace Obsession.Service.ReactStuff
             return relativePath;
         }
 
+        public string ToRelativePath(string absolutePath)
+        {
+            return absolutePath.Replace(_rootPathProvider.GetRootPath(), "~");
+        }
+
         public string ReadAsString(string relativePath)
         {
             return File.ReadAllText(MapPath(relativePath));
@@ -42,6 +47,11 @@ namespace Obsession.Service.ReactStuff
         public bool FileExists(string relativePath)
         {
             return File.Exists(MapPath(relativePath));
+        }
+
+        public IEnumerable<string> Glob(string glob)
+        {
+            throw new NotImplementedException();
         }
     }
 }

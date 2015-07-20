@@ -30,6 +30,28 @@ namespace Obsession.Core.Effectors
             Receive<PluginGetState>(s => GetState(s));
         }
 
+        protected override SupervisorStrategy SupervisorStrategy()
+        {
+            return new OneForOneStrategy(// or AllForOneStrategy
+            maxNrOfRetries: 10,
+            withinTimeRange: TimeSpan.FromSeconds(30),
+            localOnlyDecider: x =>
+            {
+                // Maybe ArithmeticException is not application critical
+                // so we just ignore the error and keep going.
+                if (x is ArithmeticException) return Directive.Resume;
+
+                // Error that we have no idea what to do with
+                else if (x is InvalidProgramException) return Directive.Escalate;
+
+                // Error that we can't recover from, stop the failing child
+                else if (x is NotSupportedException) return Directive.Stop;
+
+                // otherwise restart the failing child
+                else return Directive.Restart;
+            });
+        }
+
         public bool Start(PluginStart message)
         {
             _serviceModule = _moduleFactory.Create(message.Configuration);

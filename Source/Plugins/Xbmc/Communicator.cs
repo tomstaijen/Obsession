@@ -70,6 +70,13 @@ namespace Xbmc
             _pass = pass;
         }
 
+        public dynamic GetInfo()
+        {
+            return DoIt(new JsonRpcRequest("XBMC.GetInfoLabels")
+                .WithParameter("labels", new[] { "Network.MacAddress" })
+                );
+        }
+
         protected string JsonRpcUrl
         {
             get { return string.Format("http://{0}:8080/jsonrpc", _hostname); }
@@ -81,6 +88,8 @@ namespace Xbmc
             //var message = "{ \"jsonrpc\": \"2.0\", \"method\": \"JSONRPC.Introspect\", \"params\": { \"filter\": { \"id\": \"AudioLibrary.GetAlbums\", \"type\": \"method\" } }, \"id\": 1 }";
 
             var message = JsonConvert.SerializeObject(request);
+
+            Console.WriteLine(message);
 
             var client = new HttpClient();
             // auth
@@ -109,6 +118,24 @@ namespace Xbmc
         public dynamic GetActivePlayers()
         {
             return DoIt(new JsonRpcRequest("Player.GetActivePlayers"));
+        }
+
+        public dynamic GetMovies()
+        {
+            return DoIt(new JsonRpcRequest("VideoLibrary.GetMovies")
+                            .WithParameter("properties", new[] {"art", "rating", "playcount", "file", "year", "genre"}));
+        }
+
+        public dynamic GetMovieDetails(long id)
+        {
+            return DoIt(new JsonRpcRequest("VideoLibrary.GetMovieDetails")
+                            .WithParameter("movieid", id)
+                );
+        }
+
+        public dynamic PlayUrl(string url)
+        {
+            return DoIt(new JsonRpcRequest("Player.Open").WithParameter("item", new { file = url } ));
         }
 
         public dynamic GetItemVideo(long playerId)
