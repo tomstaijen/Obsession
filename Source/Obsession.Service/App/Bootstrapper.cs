@@ -19,7 +19,6 @@ using Newtonsoft.Json.Serialization;
 using Obsession.Service.AutofacModules;
 using Obsession.Service.AutofacModules.Obsession;
 using Obsession.Service.ReactStuff;
-using React;
 
 namespace Obsession.Service
 {
@@ -62,7 +61,6 @@ namespace Obsession.Service
                         builder.RegisterModule<P1Module>();
                         builder.RegisterModule<InComfortModule>();
                         builder.RegisterModule<YahooWeatherModule>();
-                        builder.RegisterModule<ReactModule>();
                         builder.RegisterModule<NmaModule>();
 
                         builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
@@ -95,15 +93,15 @@ namespace Obsession.Service
 
             conventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("content"));
             
-            conventions.StaticContentsConventions.Add((ctx, s) =>
-            {
-                if (ctx.Request.Path.EndsWith(".jsx"))
-                {
-                    var react = GetApplicationContainer().Resolve<IReactEnvironment>();
-                    return react.JsxTransformer.TransformJsxFile("~" + ctx.Request.Path);
-                }
-                return null;
-            });
+//            conventions.StaticContentsConventions.Add((ctx, s) =>
+//            {
+//                if (ctx.Request.Path.EndsWith(".jsx"))
+//                {
+//                    var react = GetApplicationContainer().Resolve<IReactEnvironment>();
+//                    return react.JsxTransformer.TransformJsxFile("~" + ctx.Request.Path);
+//                }
+//                return null;
+//            });
         }
     }
 }

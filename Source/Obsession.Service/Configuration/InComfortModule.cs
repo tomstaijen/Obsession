@@ -15,7 +15,7 @@ namespace Obsession.Service.AutofacModules
             builder.RegisterType<InComfortReaderService>().Named<IServiceModule>("incomfort");
 
             builder.RegisterInstance(new Configuration("incomfort", "heating") { Poll = true, Persist = true }
-                .WithValue("Hostname", "192.168.3.54"));
+                .WithValue("Hostname", "192.168.3.69"));
         }
     }
 }

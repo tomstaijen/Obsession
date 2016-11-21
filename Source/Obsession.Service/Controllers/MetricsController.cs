@@ -37,12 +37,12 @@ namespace Obsession.Service.Controllers
         [Route("api/metrics/day/{metric}/{fill}")]
         public IEnumerable<HistoValue> Day(string metric, bool fill)
         {
-            var actor = _actorSystem.ActorOf<MetricsSupplier>();
-            var result = actor.Ask<Metrics>(new FetchMetrics());
-
-
-            var x = result.Result.Values.Select(kvp => new HistoValue(kvp.Key, kvp.Value));
-            return x;
+//            var actor = _actorSystem.ActorOf<MetricsSupplier>();
+//            var result = actor.Ask<Metrics>(new FetchMetrics());
+//
+//
+//            var x = result.Result.Values.Select(kvp => new HistoValue(kvp.Key, kvp.Value));
+//            return x;
 
             var now = DateTime.Now;
             var prev = now.AddDays(-1);
@@ -78,11 +78,11 @@ namespace Obsession.Service.Controllers
 
             var r = new Dictionary<DateTime, HistoValue>();
 
-            foreach (var i in result.Aggs.Histogram("histo").Items)
+            foreach (var i in result.Aggs.Histogram("histo").Buckets)
             {
                 var subAggValue = i.Aggregations.Single(a => a.Key == subAggKey).Value;
-                if (subAggValue != null && (subAggValue as ValueMetric).Value.HasValue && i.Date >= start.ToUniversalTime())
-                    r.Add(i.Date, new HistoValue(i.Date.ToLocalTime(), (i.Aggregations.Single(a => a.Key == subAggKey).Value as ValueMetric).Value.Value));
+//                if (subAggValue != null && (subAggValue as ValueMetric).Value.HasValue && i.Date >= start.ToUniversalTime())
+//                    r.Add(i.Date, new HistoValue(i.Date.ToLocalTime(), (i.Aggregations.Single(a => a.Key == subAggKey).Value as ValueMetric).Value.Value));
             }
 
             if (fillInterval.HasValue)
